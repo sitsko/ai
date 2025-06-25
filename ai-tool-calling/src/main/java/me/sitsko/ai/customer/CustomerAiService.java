@@ -19,12 +19,10 @@ public interface CustomerAiService {
         Always respond with valid JSON format.
         """)
 	@UserMessage("""
-        Generate exactly 10 unique persons
-
+        Generate exactly 3 unique persons.
         Requirements:
         - Each person must have a unique integer ID (like 1, 2, 3, etc.)
-        - Use realistic first and last names per each nationality
-        - Ages should be between 18 and 80
+        - Use realistic first and last names
         - Return ONLY the JSON array, no additional text
         """)
 	CustomerResponse generatePersonList(@MemoryId int userId);

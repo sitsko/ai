@@ -33,6 +33,13 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+			<dependency>
+				<groupId>io.quarkiverse.langchain4j</groupId>
+				<artifactId>quarkus-langchain4j-bom</artifactId>
+				<version>${quarkus-langchain4j.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -147,7 +154,6 @@
 				<dependency>
 					<groupId>io.quarkiverse.langchain4j</groupId>
 					<artifactId>quarkus-langchain4j-openai</artifactId>
-					<version>${quarkus-langchain4j.version}</version>
 				</dependency>
 			</dependencies>
 		</profile>
@@ -157,7 +163,6 @@
 				<dependency>
 					<groupId>io.quarkiverse.langchain4j</groupId>
 					<artifactId>quarkus-langchain4j-mistral-ai</artifactId>
-					<version>${quarkus-langchain4j.version}</version>
 				</dependency>
 			</dependencies>
 		</profile>
@@ -167,7 +172,6 @@
 				<dependency>
 					<groupId>io.quarkiverse.langchain4j</groupId>
 					<artifactId>quarkus-langchain4j-ollama</artifactId>
-					<version>${quarkus-langchain4j.version}</version>
 				</dependency>
 			</dependencies>
 		</profile>
