@@ -1,4 +1,4 @@
-package me.sitsko.ai.resources;
+package me.sitsko.ai.customer;
 
 /**
  * @author Mikalai Sitsko , 06/25/2025
@@ -7,9 +7,6 @@ package me.sitsko.ai.resources;
 import jakarta.ws.rs.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.sitsko.ai.api.CustomerResponse;
-import me.sitsko.ai.customer.Customer;
-import me.sitsko.ai.customer.CustomerAiService;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 

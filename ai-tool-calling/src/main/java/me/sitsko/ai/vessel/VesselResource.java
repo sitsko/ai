@@ -1,13 +1,13 @@
-package me.sitsko.ai.resources;
+package me.sitsko.ai.vessel;
 
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.sitsko.ai.vessel.Vessel;
-import me.sitsko.ai.vessel.VesselAiService;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
@@ -24,9 +24,15 @@ public class VesselResource {
 	private final VesselAiService vesselAiService;
 
 	@GET
-	@Path("/vessels/heavy")
-	public Vessel findHeavyVesel() {
-		return vesselAiService.getHeavyVessel();
+	@Path("/vessels/{owner}/heavy")
+	public Vessel findHeavyVesel(@PathParam("owner") String owner) {
+		return vesselAiService.getHeavyVessel(owner);
+	}
+
+	@GET
+	@Path("/vessels/forecast")
+	public String findHeavyVesel(@QueryParam("year") int year) {
+		return vesselAiService.generateForecast(year);
 	}
 }
 

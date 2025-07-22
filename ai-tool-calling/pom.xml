@@ -60,6 +60,11 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-smallrye-fault-tolerance</artifactId>
+		</dependency>
+
 		<!-- Test Quarkus dependencies -->
 		<dependency>
 			<groupId>io.quarkus</groupId>

@@ -1,6 +1,4 @@
-package me.sitsko.ai.api;
-
-import me.sitsko.ai.customer.Customer;
+package me.sitsko.ai.customer;
 
 import java.util.List;
 

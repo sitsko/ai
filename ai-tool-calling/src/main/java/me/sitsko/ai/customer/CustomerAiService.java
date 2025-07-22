@@ -5,7 +5,6 @@ import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 import io.quarkiverse.langchain4j.RegisterAiService;
 import jakarta.enterprise.context.ApplicationScoped;
-import me.sitsko.ai.api.CustomerResponse;
 
 /**
  * @author Mikalai Sitsko , 06/25/2025
