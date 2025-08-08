@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * Output guard for validadating response from the vessel AI service.
  * @author Mikalai Sitsko , 06/27/2025
  */
 @ApplicationScoped

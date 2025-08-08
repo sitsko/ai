@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 /**
+ * Endpoints for vessel-related operations.
+ *
  * @author Mikalai Sitsko , 06/27/2025
  */
 @Slf4j

@@ -21,15 +21,15 @@ public class CustomerGenerationResource {
 	private final CustomerAiService customerAiService;
 
 	@GET
-	@Path("/{userId}/customer")
-	public CustomerResponse generatePersons(@PathParam("userId") int userId) {
-		return customerAiService.generatePersonList(userId);
+	@Path("/lists/{listId}")
+	public CustomerResponse generatePersons(@PathParam("listId") int listId) {
+		return customerAiService.generatePersonList(listId);
 	}
 
 	@GET
-	@Path("/{userId}/customer/{id}")
-	public Customer getPersonById(@PathParam("userId") int userId, @PathParam("id") int id) {
-		return customerAiService.getPersonById(userId, id);
+	@Path("/lists/{listId}/customers/{id}")
+	public Customer getPersonById(@PathParam("listId") int listId, @PathParam("id") int id) {
+		return customerAiService.getPersonById(listId, id);
 	}
 
 
