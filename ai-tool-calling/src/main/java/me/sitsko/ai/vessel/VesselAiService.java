@@ -4,6 +4,7 @@ import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 import io.quarkiverse.langchain4j.RegisterAiService;
 import io.quarkiverse.langchain4j.ToolBox;
+import io.quarkiverse.langchain4j.guardrails.InputGuardrails;
 import io.quarkiverse.langchain4j.guardrails.OutputGuardrails;
 import io.smallrye.common.annotation.RunOnVirtualThread;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -14,7 +15,7 @@ import org.eclipse.microprofile.faulttolerance.Timeout;
  * AI service for handling vessel-related operations.
  * @author Mikalai Sitsko , 06/27/2025
  */
-@RegisterAiService()
+@RegisterAiService
 @ApplicationScoped
 @SystemMessage("""
 		You are a  maritime container shipping expert.
@@ -26,7 +27,8 @@ public interface VesselAiService {
     Return the vessel which has maximum TEU size from the vessel {owner}
     """)
 	@ToolBox(VesselTool.class)
-	@OutputGuardrails(VesselGuardrail.class)
+	@OutputGuardrails(VesselOutputGuardrail.class)
+	@InputGuardrails(VesselInputGuardRail.class)
 	Vessel getHeavyVessel(String owner);
 
 	@UserMessage("""
@@ -36,15 +38,12 @@ public interface VesselAiService {
 
 	@UserMessage("""
 		Generate report how many vessels are going to be produces in the next {years} years.
-		Group results by owner and return the list of vessels.
+		The report should include reference to resources.
+		Group results by owner and return the list of vessels, it should look in json format:
+		company;number of vessels;reference
 		""")
 	@Timeout(value = 60, unit = ChronoUnit.SECONDS)
-//	@Fallback(fallbackMethod = "fallback")
 	@RunOnVirtualThread
 	String generateForecast(int years);
 
-//	default String fallback() {
-//
-//		return "Ops";
-//	}
 }

@@ -31,8 +31,8 @@ public class VesselResource {
 
 	@GET
 	@Path("/vessels/forecast")
-	public String findHeavyVesel(@QueryParam("year") int year) {
-		return vesselAiService.generateForecast(year);
+	public String findHeavyVesel(@QueryParam("years") int years) {
+		return vesselAiService.generateForecast(years);
 	}
 }
 

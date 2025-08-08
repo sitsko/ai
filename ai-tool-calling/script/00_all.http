@@ -1,0 +1,18 @@
+### OUTPUT the exacly same name
+GET http://localhost:8080/api/vessels/hapag-lloyd/heavy
+
+
+### incomplete
+GET http://localhost:8080/api/vessels/hapag/heavy
+
+
+### incorrect name, typo
+GET http://localhost:8080/api/vessels/hopog/heavy
+
+
+### Dummy not returned
+GET http://localhost:8080/api/vessels/evergreen/heavy
+
+
+### INPUT, Bad word
+GET http://localhost:8080/api/vessels/bad/heavy

@@ -1,0 +1,3 @@
+### OUTPUT, forecast
+GET http://localhost:8080/api/vessels/forecast?years=1
+

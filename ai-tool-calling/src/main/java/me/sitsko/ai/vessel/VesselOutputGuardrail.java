@@ -12,9 +12,9 @@ import java.util.regex.Pattern;
  * @author Mikalai Sitsko , 06/27/2025
  */
 @ApplicationScoped
-public class VesselGuardrail implements OutputGuardrail {
+public class VesselOutputGuardrail implements OutputGuardrail {
 
-	private final Pattern PATTERN = Pattern.compile("dummy");
+	private static final Pattern PATTERN = Pattern.compile("dummy");
 
 	@Override
 	public OutputGuardrailResult validate(AiMessage responseFromLLM) {
