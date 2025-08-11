@@ -18,7 +18,7 @@
 
 		<quarkus.platform.version>3.23.4</quarkus.platform.version>
 		<surefire-plugin.version>3.5.3</surefire-plugin.version>
-		<quarkus-langchain4j.version>1.0.2</quarkus-langchain4j.version>
+		<quarkus-langchain4j.version>1.1.0</quarkus-langchain4j.version>
 		<lombok.version>1.18.32</lombok.version>
 
 		<skipITs>true</skipITs>
@@ -66,6 +66,26 @@
 			<scope>provided</scope>
 		</dependency>
 
+<!--    observability -->
+<!--    <dependency>-->
+<!--      <groupId>io.quarkus</groupId>-->
+<!--      <artifactId>quarkus-micrometer-registry-prometheus</artifactId>-->
+<!--    </dependency>-->
+<!--    <dependency>-->
+<!--      <groupId>io.quarkus</groupId>-->
+<!--      <artifactId>quarkus-observability-devservices-lgtm</artifactId>-->
+<!--      <scope>provided</scope>-->
+<!--    </dependency>-->
+<!--    <dependency>-->
+<!--      <groupId>io.quarkus</groupId>-->
+<!--      <artifactId>quarkus-opentelemetry</artifactId>-->
+<!--    </dependency>-->
+<!--    <dependency>-->
+<!--      <groupId>io.opentelemetry.instrumentation</groupId>-->
+<!--      <artifactId>opentelemetry-jdbc</artifactId>-->
+<!--    </dependency>-->
+
+<!--    resilience -->
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-smallrye-fault-tolerance</artifactId>

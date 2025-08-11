@@ -36,6 +36,12 @@ public class VesselResource {
 	public String findHeavyVesel(@QueryParam("years") int years) {
 		return vesselAiService.generateForecast(years);
 	}
+
+	@GET
+	@Path("/vessels/{owner}/count")
+	public int countVesel(@PathParam("owner") String owner) {
+		return vesselAiService.countVessels(owner);
+	}
 }
 
 

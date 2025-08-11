@@ -12,7 +12,7 @@ GET http://localhost:8080/api/lists/1/customers/3
 
 
 ### OUTPUT, 2
-GET http://localhost:8080/api/lists/99
+GET http://localhost:8080/api/lists/5
 
 ### OUTPUT, 2
 GET http://localhost:8080/api/lists/99/customers/3
