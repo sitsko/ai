@@ -1,0 +1,25 @@
+services:
+  app:
+    build:
+      context: ../../..
+      args:
+        AI_APP_PORT: ${AI_APP_PORT}
+        AI_MODEL_PROVIDER: ${AI_MODEL_PROVIDER}
+        OPEN_AI_TOKEN: ${OPEN_AI_TOKEN}
+      dockerfile:  src/main/docker/Dockerfile.jvm
+
+    hostname: dev-local
+    container_name: ai-container
+    image: ai-image:latest
+    ports:
+      - "${AI_APP_PORT}:${AI_APP_PORT}"
+    env_file:
+      - ../../../.env
+    networks:
+      - backend-network
+
+
+
+networks:
+  backend-network:
+    driver: bridge
