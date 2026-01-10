@@ -35,8 +35,7 @@ public interface CustomerAiService {
         You are a helpful assistant that can recall generated person data from chat memory.
         """)
 	@UserMessage("""
-        In the previously generated list of persons with number of list {listId}, find and return the person with id {id}.
-        
+        In the previously generated list of persons with number of list {listId}, find and return the person with id {id}.        
         Return ONLY the JSON object, no additional text.
         """)
 	Customer getPersonById(@MemoryId int listId, int id);
