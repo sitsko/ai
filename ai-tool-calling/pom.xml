@@ -190,5 +190,14 @@
 				</dependency>
 			</dependencies>
 		</profile>
+		<profile>
+			<id>anthropic</id>
+			<dependencies>
+				<dependency>
+					<groupId>io.quarkiverse.langchain4j</groupId>
+					<artifactId>quarkus-langchain4j-anthropic</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
 	</profiles>
 </project>
