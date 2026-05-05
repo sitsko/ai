@@ -10,8 +10,15 @@ Create a `.env` file in the root of the project with the following content:
 ```properties
 AI_APP_PORT=8080
 
+# Provider: openai | ollama | anthropic
 AI_MODEL_PROVIDER=openai
 OPEN_AI_TOKEN=<your-openai-token>
+
+# Required when AI_MODEL_PROVIDER=anthropic
+# ANTHROPIC_API_KEY=<your-anthropic-key>
+
+# Required when AI_MODEL_PROVIDER=ollama
+# OLLAMA_BASE_URL=http://localhost:11434
 ```
 
 make sure that you have `Java 21` JDK.
@@ -21,7 +28,14 @@ make sure that you have `Java 21` JDK.
 You can run your application in dev mode that enables live coding using:
 
 ```shell script
+# OpenAI (default)
 ./mvnw quarkus:dev
+
+# Ollama
+./mvnw quarkus:dev -P ollama
+
+# Anthropic Claude
+./mvnw quarkus:dev -P anthropic
 ```
 
 
