@@ -187,5 +187,14 @@
 				</dependency>
 			</dependencies>
 		</profile>
+		<profile>
+			<id>gemini</id>
+			<dependencies>
+				<dependency>
+					<groupId>io.quarkiverse.langchain4j</groupId>
+					<artifactId>quarkus-langchain4j-google-ai-gemini</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
 	</profiles>
 </project>
