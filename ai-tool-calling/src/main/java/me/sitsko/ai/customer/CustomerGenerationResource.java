@@ -4,8 +4,6 @@ package me.sitsko.ai.customer;
  * @author Mikalai Sitsko , 06/25/2025
  */
 
-import io.micrometer.core.annotation.Counted;
-import io.micrometer.core.annotation.Timed;
 import jakarta.ws.rs.*;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -36,8 +34,8 @@ public class CustomerGenerationResource {
 	}
 
     @SneakyThrows
-    @Counted(value = "CustomerGenerationResource.getCustomers.count")
-    @Timed(value = "CustomerGenerationResource.getCustomers.time")
+//    @Counted(value = "CustomerGenerationResource.getCustomers.count")
+//    @Timed(value = "CustomerGenerationResource.getCustomers.time")
 	@GET
 	@Path("/customers")
 	public String getCustomers() {

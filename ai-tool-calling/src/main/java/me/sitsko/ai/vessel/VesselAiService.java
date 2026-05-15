@@ -2,10 +2,10 @@ package me.sitsko.ai.vessel;
 
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
+import dev.langchain4j.service.guardrail.InputGuardrails;
+import dev.langchain4j.service.guardrail.OutputGuardrails;
 import io.quarkiverse.langchain4j.RegisterAiService;
 import io.quarkiverse.langchain4j.ToolBox;
-import io.quarkiverse.langchain4j.guardrails.InputGuardrails;
-import io.quarkiverse.langchain4j.guardrails.OutputGuardrails;
 import io.smallrye.common.annotation.RunOnVirtualThread;
 import jakarta.enterprise.context.ApplicationScoped;
 import java.time.temporal.ChronoUnit;

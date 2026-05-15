@@ -9,7 +9,7 @@ DENY_RESPONSE='{
   "hookSpecificOutput": {
     "hookEventName": "PreToolUse",
     "permissionDecision": "deny",
-    "permissionDecisionReason": "Access to .env file is denied"
+    "permissionDecisionReason": "Access to .env* file is denied"
   }
 }'
 

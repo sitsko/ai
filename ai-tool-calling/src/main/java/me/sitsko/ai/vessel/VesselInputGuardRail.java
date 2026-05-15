@@ -1,8 +1,8 @@
 package me.sitsko.ai.vessel;
 
-import io.quarkiverse.langchain4j.guardrails.InputGuardrail;
-import io.quarkiverse.langchain4j.guardrails.InputGuardrailParams;
-import io.quarkiverse.langchain4j.guardrails.InputGuardrailResult;
+import dev.langchain4j.guardrail.InputGuardrail;
+import dev.langchain4j.guardrail.InputGuardrailRequest;
+import dev.langchain4j.guardrail.InputGuardrailResult;
 import jakarta.enterprise.context.ApplicationScoped;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,9 +18,9 @@ public class VesselInputGuardRail implements InputGuardrail {
 	public static final String BAD_WORD = "bad";
 
 	@Override
-	public InputGuardrailResult validate(InputGuardrailParams params) {
+	public InputGuardrailResult validate(InputGuardrailRequest params) {
 		try {
-			String owner = (String) params.variables().get("owner");
+			String owner = (String) params.requestParams().variables().get("owner");
 			if (owner == null || owner.isBlank() || owner.equals(BAD_WORD)) {
 				return failure("Used a rude word");
 			}

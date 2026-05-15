@@ -16,9 +16,8 @@
 		<quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
 		<quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
 
-		<quarkus.platform.version>3.23.4</quarkus.platform.version>
+		<quarkus.platform.version>3.35.2</quarkus.platform.version>
 		<surefire-plugin.version>3.5.3</surefire-plugin.version>
-		<quarkus-langchain4j.version>1.1.0</quarkus-langchain4j.version>
 		<lombok.version>1.18.34</lombok.version>
 
 		<skipITs>true</skipITs>
@@ -34,9 +33,9 @@
 				<scope>import</scope>
 			</dependency>
 			<dependency>
-				<groupId>io.quarkiverse.langchain4j</groupId>
+				<groupId>${quarkus.platform.group-id}</groupId>
 				<artifactId>quarkus-langchain4j-bom</artifactId>
-				<version>${quarkus-langchain4j.version}</version>
+				<version>${quarkus.platform.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -68,15 +67,15 @@
 
 
 <!--    observability -->
-		<dependency>
-			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-micrometer-registry-prometheus</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-observability-devservices-lgtm</artifactId>
-			<scope>provided</scope>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>io.quarkus</groupId>-->
+<!--			<artifactId>quarkus-micrometer-registry-prometheus</artifactId>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>io.quarkus</groupId>-->
+<!--			<artifactId>quarkus-observability-devservices-lgtm</artifactId>-->
+<!--			<scope>provided</scope>-->
+<!--		</dependency>-->
 
 <!--    resilience -->
 		<dependency>
