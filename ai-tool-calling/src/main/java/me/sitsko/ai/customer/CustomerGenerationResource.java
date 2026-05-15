@@ -34,8 +34,6 @@ public class CustomerGenerationResource {
 	}
 
     @SneakyThrows
-//    @Counted(value = "CustomerGenerationResource.getCustomers.count")
-//    @Timed(value = "CustomerGenerationResource.getCustomers.time")
 	@GET
 	@Path("/customers")
 	public String getCustomers() {
