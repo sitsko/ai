@@ -1,0 +1,2 @@
+### OUTPUT the exacly same name
+http GET http://localhost:9080/api/booking/proposal userPrompt="User question"
