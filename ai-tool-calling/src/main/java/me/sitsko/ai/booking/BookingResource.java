@@ -37,6 +37,7 @@ public class BookingResource {
 		return ResponseBuilder.<BookingResponse>create(Status.FORBIDDEN)
 				.entity(BookingResponse.builder()
 						.advice("Detected Security Violation")
+						.error(ex.getCause() != null ? ex.getCause().getMessage() : ex.getMessage())
 						.build())
 				.build();
 	}

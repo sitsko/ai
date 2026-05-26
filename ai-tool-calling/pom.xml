@@ -194,6 +194,9 @@
     </profile>
     <profile>
       <id>gemini</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
       <dependencies>
         <dependency>
           <groupId>io.quarkiverse.langchain4j</groupId>
