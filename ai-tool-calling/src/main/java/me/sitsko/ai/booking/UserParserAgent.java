@@ -1,11 +1,10 @@
 package me.sitsko.ai.booking;
 
+import dev.langchain4j.agentic.Agent;
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 import io.quarkiverse.langchain4j.RegisterAiService;
-import io.quarkiverse.langchain4j.ToolBox;
 import jakarta.enterprise.context.ApplicationScoped;
-import me.sitsko.ai.schedule.VesselScheduler;
 
 @ApplicationScoped
 @RegisterAiService
@@ -22,8 +21,8 @@ public interface UserParserAgent {
 			If a user does not provide any information about arrival date, you can use null value with confidence 0.0.
 			if a user do not mention year, assume that it is current year.
 			
-			Output structure MUST be a JSON only, no any additional strings and words:
-			============= JSON structure begins
+			Output structure MUST be a JSON ONLY, no any additional strings and words:
+			
 			{
 			   "fromCity" : <Departure City Name>,
 			   "toCity" : <Arrival City Name>,
@@ -33,7 +32,7 @@ public interface UserParserAgent {
 	       "departureConfidence" : <confidence in departure date, double number between 0.0 and 1.0>,
          "arrivalConfidence" : <confidence in arrival date, double number between 0.0 and 1.0>
       }
-      JSON structure ended =================
+
 			
 			The current date for examples is 2026-09-01.
 			Example 1.
@@ -42,44 +41,50 @@ public interface UserParserAgent {
 			{
 			   "fromCity" : "Hamburg",
 			   "toCity" : "Gdansk",
-			   "departure" : "2026-09-03", 
+			   "departure" : "2026-09-03",
 			   "arrival" : "2026-09-25",
 				 "containerCount" : 5,
 	       "departureConfidence" : 0.2,
 				 "arrivalConfidence" : 0.9
-			} 
+			}
 			
 			Example 2.
 			User query: I need a reservation 100 containers from Hamburg to Barcelona. The container will be load approximetly on  15th september, The containers must be arrived on 20 September not later
 			Output:
 			{
 			   "fromCity" : "Hamburg",
-			   "toCity" : "Barcelona", 
-			   "departure" : "2026-09-15", 
+			   "toCity" : "Barcelona",
+			   "departure" : "2026-09-15",
 			   "arrival" : "2026-09-25",
 				 "containerCount" : 100,
 	       "departureConfidence" : 0.6,
 				 "arrivalConfidence" : 1.0
-			} 
+			}
 			
 			Example 3.
 			User query: I want to deliver 10 containers from Gdansk to Tokio.  It is quite urgent so we need to send them before 08.09.2026
 			Output:
 			{
 			   "fromCity" : "Gdansk",
-			   "toCity" : "Tokio", 
-			   "departure" : "2026-09-08", 
+			   "toCity" : "Tokio",
+			   "departure" : "2026-09-08",
 			   "arrival" : null,
 				 "containerCount" : 10,
 	       "departureConfidence" : 0.9,
 				 "arrivalConfidence" : 0.0
-			} 
+			}
 			""")
 	@UserMessage("""
 			Parse user request and extract data in JSON format
 			User query: {userRequest}
 			Current date: {current_date}
+			Return ONLY the JSON object, no additional text.
 			""")
+	@Agent(
+			name = "MrParser",
+			value = "An expert in understanding user requirements for booking container and creating structured output.",
+	    outputKey = "requestedRoute"
+	)
 	RequestedRoute reservationData(String userRequest);
 }
 

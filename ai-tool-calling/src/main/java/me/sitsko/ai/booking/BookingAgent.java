@@ -1,5 +1,7 @@
 package me.sitsko.ai.booking;
 
+import dev.langchain4j.agentic.declarative.Output;
+import dev.langchain4j.agentic.declarative.SequenceAgent;
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.guardrail.InputGuardrails;
 import dev.langchain4j.service.guardrail.OutputGuardrails;
@@ -22,6 +24,15 @@ public interface BookingAgent {
 			""")
 	@InputGuardrails(InputGuardRailService.class)
 	@OutputGuardrails(OutputGuardrailService.class)
-	BookingResponse reservationData(String userMessage);
+	@SequenceAgent(
+			subAgents = { UserParserAgent.class, VesselScheduleAgent.class}
+	)
+	BookingResponse reservationData(String userRequest);
+
+	@Output
+	static BookingResponse output(RequestedRoute requestedRoute , String adviceRoutes) {
+		return new BookingResponse(adviceRoutes, "");
+	}
 }
+
 

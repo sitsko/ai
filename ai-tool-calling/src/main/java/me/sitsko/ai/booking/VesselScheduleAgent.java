@@ -20,9 +20,9 @@ public interface VesselScheduleAgent {
 			Response has to contain from 1 up to 3 proposals, ordered by best relevance.
 			Format output only JSON:
 			
-		  {
-          "routes": [
-              {
+			{
+				"routes": [
+							{
                   "vessel": "<vessel name>",
                   "route": "<from city to city>",
                   "trip date": "<departure - arrival date>"
@@ -41,7 +41,7 @@ public interface VesselScheduleAgent {
 	@ToolBox(VesselScheduler.class)
 	@Agent(name = "MrFrontDesker",
 			value = "Provides most suitable routes from existing schedule according user preferences about departure and arrival dates.",
-	  outputKey = "scheduleResults")
-	String reservationData(RequestedRoute route);
+	    outputKey = "adviceRoutes")
+	String adviceRoutes(RequestedRoute requestedRoute);
 }
 
