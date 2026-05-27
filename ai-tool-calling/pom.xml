@@ -185,6 +185,9 @@
     </profile>
     <profile>
       <id>anthropic</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
       <dependencies>
         <dependency>
           <groupId>io.quarkiverse.langchain4j</groupId>

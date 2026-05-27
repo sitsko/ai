@@ -15,33 +15,37 @@ public interface VesselScheduleAgent {
 	@SystemMessage("""
 			You are a vessel schedule agent for containers in liner vessel company Hapag Lloyd.
 			
-			You should provide most suitable routes from existing schedule according user preferences about  departure and arrival dates.
+			You should provide most suitable routes from existing schedule according user preferences about  departure and arrival dates, and containers count.
 			
-			Response has to contain from 1 up to 3 proposals, ordered by best relevance.
+			Response has to contain from 1 up to 3 proposals, the departure and arrival date deviation has not exceed 3 days.
+			The proposals has to be ordered by best relevance, i.e. with lowest date deviation compare to requirements.
+			
 			Format output only JSON:
 			
 			{
 				"routes": [
 							{
                   "vessel": "<vessel name>",
-                  "route": "<from city to city>",
-                  "trip date": "<departure - arrival date>"
+                  "route": "<from city => to city>",
+                  "trip": "<departure => arrival date>",
+                  "containerCount" : <number of containers>
               }
           ]
       }
 
-      Example 1:
-			User query:
-			
+			IMPORTANT: Your response MUST be a raw JSON object only.
+			Do NOT wrap it in markdown code blocks (no ```json, no ```, no backticks).
+			Do NOT add any explanation, prefix, or suffix.
+			Your entire response must start with '{' and end with '}'.
 			""")
 	@UserMessage("""
-      User request: {route}
+      User request: {requestedRoute}
       Today is {current_date}.
       """	)
 	@ToolBox(VesselScheduler.class)
 	@Agent(name = "MrFrontDesker",
 			value = "Provides most suitable routes from existing schedule according user preferences about departure and arrival dates.",
-	    outputKey = "adviceRoutes")
-	String adviceRoutes(RequestedRoute requestedRoute);
+	    outputKey = "responseRoutes")
+	ResponseRoutes adviceRoutes(RequestedRoute requestedRoute);
 }
 

@@ -2,7 +2,7 @@ package me.sitsko.ai.schedule;
 
 import dev.langchain4j.agent.tool.Tool;
 import jakarta.enterprise.context.ApplicationScoped;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -47,7 +47,7 @@ public class VesselScheduler {
 			new FromToCities(BREMEN, GDANSK), List.of(
 					of(GRUNWALD_EXPRESS, "2026-09-02", "2026-09-04"),
 					of(GRUNWALD_EXPRESS, "2026-09-10", "2026-09-12"),
-					of(GRUNWALD_EXPRESS, "2026-09-18", "2026-09-20"),
+					of(GRUNWALD_EXPRESS, "2026-09-18", "2026-09-21"),
 
 					of(POLOTSK_EXPRESS, "2026-09-03", "2026-09-05"),
 					of(POLOTSK_EXPRESS, "2026-09-15", "2026-09-17"),
@@ -61,7 +61,7 @@ public class VesselScheduler {
 					of(GDANSK_EXPRESS, "2026-09-22", "2026-09-24"),
 
 					of(POLOTSK_EXPRESS, "2026-09-08", "2026-09-10"),
-					of(POLOTSK_EXPRESS, "2026-09-18", "2026-09-20"),
+					of(POLOTSK_EXPRESS, "2026-09-18", "2026-09-22"),
 					of(POLOTSK_EXPRESS, "2026-10-01", "2026-10-03")
 
 			)
@@ -69,7 +69,7 @@ public class VesselScheduler {
 	);
 
 	@Tool("Return schedules of vessels that can transport containers from {fromCity} to {toCity} departing between {departureFrom} and {departureTo}.")
-	public List<VesselRoute> findRoute(String fromCity, String toCity, LocalDateTime departureFrom, LocalDateTime departureTo) {
+	public List<VesselRoute> findRoute(String fromCity, String toCity, LocalDate departureFrom, LocalDate departureTo) {
 
 		FromToCities fromToCities = new FromToCities(fromCity, toCity);
 		return SCHEDULE.get(fromToCities).stream()

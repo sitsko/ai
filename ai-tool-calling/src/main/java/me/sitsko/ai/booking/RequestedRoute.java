@@ -1,7 +1,8 @@
 package me.sitsko.ai.booking;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import dev.langchain4j.model.output.structured.Description;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public record RequestedRoute(
 		@Description("Departure city")
@@ -10,11 +11,13 @@ public record RequestedRoute(
 		@Description("Arrival city")
 		String toCity,
 
+		@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 		@Description("Departure date")
-		LocalDateTime departure,
+		LocalDate departure,
 
+		@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 		@Description("Arrival date")
-		LocalDateTime arrival,
+		LocalDate arrival,
 
 		@Description("Numbers of containers")
 		int containerCount,

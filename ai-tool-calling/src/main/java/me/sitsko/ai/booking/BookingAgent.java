@@ -30,8 +30,8 @@ public interface BookingAgent {
 	BookingResponse reservationData(String userRequest);
 
 	@Output
-	static BookingResponse output(RequestedRoute requestedRoute , String adviceRoutes) {
-		return new BookingResponse(adviceRoutes, "");
+	static BookingResponse output(String userRequest, RequestedRoute requestedRoute , ResponseRoutes responseRoutes) {
+		return new BookingResponse(userRequest, requestedRoute, responseRoutes, "");
 	}
 }
 

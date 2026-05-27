@@ -5,6 +5,8 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
+import java.util.Collections;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jboss.resteasy.reactive.RestResponse;
@@ -36,7 +38,7 @@ public class BookingResource {
 		log.warn("Security violation detected in booking request", ex);
 		return ResponseBuilder.<BookingResponse>create(Status.FORBIDDEN)
 				.entity(BookingResponse.builder()
-						.advice("Detected Security Violation")
+						.responseRoutes(new ResponseRoutes(Collections.emptyList()))
 						.error(ex.getCause() != null ? ex.getCause().getMessage() : ex.getMessage())
 						.build())
 				.build();

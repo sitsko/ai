@@ -17,11 +17,12 @@ public interface UserParserAgent {
 			from which city containers should be picked up, to which city they should be delivered, and preferable departure and arrival date, and how many containers.
 			Confidence about departure date has to be in range from 0.0 to 1.0, where 1.0 means that a user are sure about the date, and 0.0 means that a user are not sure at all.
 			Confidence about arrival date has to be in range from 0.0 to 1.0, where 1.0 means that a user are sure about the date, and 0.0 means that a user are not sure at all.
-			If a user does not provide any information about departure date, you can use (current date + 3 day) as default value with confidence 0.2.
-			If a user does not provide any information about arrival date, you can use null value with confidence 0.0.
-			if a user do not mention year, assume that it is current year.
+			If there is no any information about departure date, you can use (current date + 3 day) as default value with confidence 0.2.
+			If there is no any information about arrival date, you can use null value with confidence 0.0.
+			if it is not mention year, assume that it is current year.
+			If provided a date range for departure dates set the beginning of range.
 			
-			Output structure MUST be a JSON ONLY, no any additional strings and words:
+			Output structure MUST be a JSON object ONLY, no any additional strings and words:
 			
 			{
 			   "fromCity" : <Departure City Name>,
@@ -73,12 +74,16 @@ public interface UserParserAgent {
 	       "departureConfidence" : 0.9,
 				 "arrivalConfidence" : 0.0
 			}
+			
+			IMPORTANT: Your response MUST be a raw JSON object only.
+			Do NOT wrap it in markdown code blocks (no ```json, no ```, no backticks).
+			Do NOT add any explanation, prefix, or suffix.
+			Your entire response must start with '{' and end with '}'.
 			""")
 	@UserMessage("""
 			Parse user request and extract data in JSON format
 			User query: {userRequest}
 			Current date: {current_date}
-			Return ONLY the JSON object, no additional text.
 			""")
 	@Agent(
 			name = "MrParser",
