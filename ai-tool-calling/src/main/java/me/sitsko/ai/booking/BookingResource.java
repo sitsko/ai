@@ -24,14 +24,14 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 @Consumes(APPLICATION_JSON)
 public class BookingResource {
 
-	private final BookingAgent bookingAgent;
+	private final BookingWorkflow bookingWorkflow;
 
 
 	@POST
 	@Path("/proposal")
 	public BookingResponse proposeVariants(BookingRequest bookingRequest) {
 		log.info("user request: {}", bookingRequest.toString());
-		return bookingAgent.reservationData(bookingRequest.userPrompt());
+		return bookingWorkflow.reservationData(bookingRequest.userPrompt());
 	}
 
 	@ServerExceptionMapper

@@ -6,11 +6,9 @@ import dev.langchain4j.service.UserMessage;
 import dev.langchain4j.service.guardrail.OutputGuardrails;
 import io.quarkiverse.langchain4j.RegisterAiService;
 import io.quarkiverse.langchain4j.ToolBox;
-import jakarta.enterprise.context.ApplicationScoped;
 import me.sitsko.ai.schedule.VesselScheduler;
 import me.sitsko.ai.shared.security.OutputGuardrailService;
 
-@ApplicationScoped
 @RegisterAiService
 public interface VesselScheduleAgent {
 
