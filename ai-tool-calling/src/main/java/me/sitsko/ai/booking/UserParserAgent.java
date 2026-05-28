@@ -3,8 +3,10 @@ package me.sitsko.ai.booking;
 import dev.langchain4j.agentic.Agent;
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
+import dev.langchain4j.service.guardrail.InputGuardrails;
 import io.quarkiverse.langchain4j.RegisterAiService;
 import jakarta.enterprise.context.ApplicationScoped;
+import me.sitsko.ai.shared.security.InputGuardRailService;
 
 @ApplicationScoped
 @RegisterAiService
@@ -30,7 +32,7 @@ public interface UserParserAgent {
 			   "departure" : <Departure Date in ISO format without timezone>,
 			   "arrival" : <Arrival Date in ISO format without timezone>,
 				 "containerCount" : <number of containers to be reserved>,
-	       "departureConfidence" : <confidence in departure date, double number between 0.0 and 1.0>,
+				"departureConfidence" : <confidence in departure date, double number between 0.0 and 1.0>,
          "arrivalConfidence" : <confidence in arrival date, double number between 0.0 and 1.0>
       }
 
@@ -85,6 +87,7 @@ public interface UserParserAgent {
 			User query: {userRequest}
 			Current date: {current_date}
 			""")
+	@InputGuardrails(InputGuardRailService.class)
 	@Agent(
 			name = "MrParser",
 			value = "An expert in understanding user requirements for booking container and creating structured output.",

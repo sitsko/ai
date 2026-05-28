@@ -3,10 +3,12 @@ package me.sitsko.ai.booking;
 import dev.langchain4j.agentic.Agent;
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
+import dev.langchain4j.service.guardrail.OutputGuardrails;
 import io.quarkiverse.langchain4j.RegisterAiService;
 import io.quarkiverse.langchain4j.ToolBox;
 import jakarta.enterprise.context.ApplicationScoped;
 import me.sitsko.ai.schedule.VesselScheduler;
+import me.sitsko.ai.shared.security.OutputGuardrailService;
 
 @ApplicationScoped
 @RegisterAiService
@@ -43,6 +45,7 @@ public interface VesselScheduleAgent {
       Today is {current_date}.
       """	)
 	@ToolBox(VesselScheduler.class)
+	@OutputGuardrails(OutputGuardrailService.class)
 	@Agent(name = "MrFrontDesker",
 			value = "Provides most suitable routes from existing schedule according user preferences about departure and arrival dates.",
 	    outputKey = "responseRoutes")

@@ -26,15 +26,24 @@ public class InputGuardRailService implements InputGuardrail {
 		boolean isAccepted = securityService.isAcceptable(userMessage);
 
 		if (!isAccepted) {
+			log.warn("Deterministic test for  prompt injection FAILED, it contains prohibited words.");
 			return failure(PROHIBITED_ERROR_MESSAGE, new ProhibitedContextException(PROHIBITED_ERROR_MESSAGE));
 		}
 
 		double result = securityAgent.isInjection(userMessage.singleText());
-		log.info("Prompt injection score: {}", result);
-
 		boolean isInjected = result >= INJECTION_THRESHOLD;
 
-		return isInjected ? failure("", new PromptInjectionException(formatErrorMessage(result))) : success();
+		return isInjected ? createFailor(result) : createSuccess(result);
+	}
+
+	private InputGuardrailResult createSuccess(double result) {
+		log.info("Non-Deterministic test for  prompt injection PASSED, score: {}. ", result);;
+		return success();
+	}
+
+	private InputGuardrailResult createFailor(double result) {
+		log.warn("Non-Deterministic test for  prompt injection FAILED, score: {}. ", result);
+		return failure("", new PromptInjectionException(formatErrorMessage(result)));
 	}
 
 	private String formatErrorMessage(double result) {

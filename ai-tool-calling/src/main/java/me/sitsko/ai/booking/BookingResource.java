@@ -1,5 +1,6 @@
 package me.sitsko.ai.booking;
 
+import dev.langchain4j.agentic.agent.AgentInvocationException;
 import dev.langchain4j.guardrail.InputGuardrailException;
 import dev.langchain4j.guardrail.OutputGuardrailException;
 import jakarta.ws.rs.Consumes;
@@ -31,6 +32,25 @@ public class BookingResource {
 	public BookingResponse proposeVariants(BookingRequest bookingRequest) {
 		log.info("user request: {}", bookingRequest.toString());
 		return bookingAgent.reservationData(bookingRequest.userPrompt());
+	}
+
+	@ServerExceptionMapper
+	public RestResponse<BookingResponse> mapAgentInvocationException(AgentInvocationException ex) {
+		Throwable cause = ex.getCause();
+		while (cause != null) {
+			switch (cause) {
+				case InputGuardrailException guardrailEx -> { return mapExceptionIn(guardrailEx); }
+				case OutputGuardrailException guardrailEx -> { return mapExceptionOut(guardrailEx); }
+				default -> cause = cause.getCause();
+			}
+		}
+		log.error("Unhandled agent invocation error", ex);
+		return ResponseBuilder.<BookingResponse>create(Status.INTERNAL_SERVER_ERROR)
+				.entity(BookingResponse.builder()
+						.responseRoutes(new ResponseRoutes(Collections.emptyList()))
+						.error(ex.getMessage())
+						.build())
+				.build();
 	}
 
 	@ServerExceptionMapper
