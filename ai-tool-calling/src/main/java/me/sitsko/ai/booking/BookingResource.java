@@ -1,12 +1,12 @@
 package me.sitsko.ai.booking;
 
 import dev.langchain4j.guardrail.InputGuardrailException;
+import dev.langchain4j.guardrail.OutputGuardrailException;
 import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import java.util.Collections;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jboss.resteasy.reactive.RestResponse;
@@ -26,7 +26,7 @@ public class BookingResource {
 	private final BookingAgent bookingAgent;
 
 
-	@GET()
+	@POST
 	@Path("/proposal")
 	public BookingResponse proposeVariants(BookingRequest bookingRequest) {
 		log.info("user request: {}", bookingRequest.toString());
@@ -34,7 +34,7 @@ public class BookingResource {
 	}
 
 	@ServerExceptionMapper
-	public RestResponse<BookingResponse> mapException(InputGuardrailException ex) {
+	public RestResponse<BookingResponse> mapExceptionIn(InputGuardrailException ex) {
 		log.warn("Security violation detected in booking request", ex);
 		return ResponseBuilder.<BookingResponse>create(Status.FORBIDDEN)
 				.entity(BookingResponse.builder()
@@ -44,4 +44,14 @@ public class BookingResource {
 				.build();
 	}
 
+	@ServerExceptionMapper
+	public RestResponse<BookingResponse> mapExceptionOut(OutputGuardrailException ex) {
+		log.warn("Security violation detected in booking response", ex);
+		return ResponseBuilder.<BookingResponse>create(Status.FORBIDDEN)
+				.entity(BookingResponse.builder()
+						.responseRoutes(new ResponseRoutes(Collections.emptyList()))
+						.error(ex.getCause() != null ? ex.getCause().getMessage() : ex.getMessage())
+						.build())
+				.build();
+	}
 }

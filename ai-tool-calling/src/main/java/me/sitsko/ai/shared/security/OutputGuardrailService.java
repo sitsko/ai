@@ -5,8 +5,10 @@ import dev.langchain4j.guardrail.OutputGuardrail;
 import dev.langchain4j.guardrail.OutputGuardrailResult;
 import jakarta.enterprise.context.ApplicationScoped;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import me.sitsko.ai.shared.exception.DataLeakException;
 
+@Slf4j
 @RequiredArgsConstructor
 @ApplicationScoped
 public class OutputGuardrailService implements OutputGuardrail {
@@ -21,6 +23,8 @@ public class OutputGuardrailService implements OutputGuardrail {
 
 		double dataLeakScore = leakAgent.isDataLeak(responseFromLLM.text());
 		boolean isDataLeak = dataLeakScore >= DATA_LEAK_THRESHOLD;
+
+		log.info("Data leak score: {}", dataLeakScore);
 
 		return isDataLeak ? failure("", new DataLeakException(formatErrorMessage(dataLeakScore))) : success();
 	}

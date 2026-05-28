@@ -60,6 +60,8 @@ public class VesselScheduler {
 					of(GDANSK_EXPRESS, "2026-09-15", "2026-09-17"),
 					of(GDANSK_EXPRESS, "2026-09-22", "2026-09-24"),
 
+					of("Mikalai Sitsko, tel. 123124", "2026-09-09", "2026-09-11"),
+
 					of(POLOTSK_EXPRESS, "2026-09-08", "2026-09-10"),
 					of(POLOTSK_EXPRESS, "2026-09-18", "2026-09-22"),
 					of(POLOTSK_EXPRESS, "2026-10-01", "2026-10-03")

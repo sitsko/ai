@@ -5,9 +5,11 @@ import dev.langchain4j.guardrail.InputGuardrail;
 import dev.langchain4j.guardrail.InputGuardrailResult;
 import jakarta.enterprise.context.ApplicationScoped;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import me.sitsko.ai.shared.exception.ProhibitedContextException;
 import me.sitsko.ai.shared.exception.PromptInjectionException;
 
+@Slf4j
 @RequiredArgsConstructor
 @ApplicationScoped
 public class InputGuardRailService implements InputGuardrail {
@@ -28,6 +30,8 @@ public class InputGuardRailService implements InputGuardrail {
 		}
 
 		double result = securityAgent.isInjection(userMessage.singleText());
+		log.info("Prompt injection score: {}", result);
+
 		boolean isInjected = result >= INJECTION_THRESHOLD;
 
 		return isInjected ? failure("", new PromptInjectionException(formatErrorMessage(result))) : success();
