@@ -1,6 +1,6 @@
 package me.sitsko.ai.schedule;
 
-public record FromToCities(
+public record Lag(
 		String fromCity,
 		String toCity
 ) {

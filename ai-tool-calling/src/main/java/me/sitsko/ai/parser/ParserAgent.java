@@ -1,14 +1,13 @@
-package me.sitsko.ai.booking;
+package me.sitsko.ai.parser;
 
 import dev.langchain4j.agentic.Agent;
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 import dev.langchain4j.service.guardrail.InputGuardrails;
-import io.quarkiverse.langchain4j.RegisterAiService;
-import me.sitsko.ai.shared.security.InputGuardRailService;
+import me.sitsko.ai.booking.UserStructuredRequest;
+import me.sitsko.ai.security.InputGuardRailService;
 
-@RegisterAiService
-public interface UserParserAgent {
+public interface ParserAgent {
 
 	@SystemMessage("""
 			You are a front desk agent which has to understand user requirements for booking container and create structured output.
@@ -91,6 +90,6 @@ public interface UserParserAgent {
 			value = "An expert in understanding user requirements for booking container and creating structured output.",
 	    outputKey = "requestedRoute"
 	)
-	RequestedRoute reservationData(String userRequest);
+	UserStructuredRequest reservationData(String userRequest);
 }
 

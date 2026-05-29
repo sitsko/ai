@@ -3,7 +3,7 @@ package me.sitsko.ai.schedule;
 import dev.langchain4j.model.output.structured.Description;
 import java.time.LocalDate;
 
-public record VesselRoute(
+public record Coastal(
 		@Description("Departure city")
 		String fromCity,
 

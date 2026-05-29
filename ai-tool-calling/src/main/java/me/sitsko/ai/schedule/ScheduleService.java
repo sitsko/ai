@@ -9,7 +9,7 @@ import java.util.Map;
 import static me.sitsko.ai.schedule.VesselArrivalDeparture.of;
 
 @ApplicationScoped
-public class VesselScheduler {
+public class ScheduleService {
 
 	private static final String HAMBURG = "Hamburg";
 	private static final String BREMEN = "Bremen";
@@ -21,8 +21,8 @@ public class VesselScheduler {
 
 	private static final String POLOTSK_EXPRESS = "Polotsk Express";
 
-	private static final Map<FromToCities, List<VesselArrivalDeparture>> SCHEDULE = Map.of(
-			new FromToCities(HAMBURG, GDANSK), List.of(
+	private static final Map<Lag, List<VesselArrivalDeparture>> SCHEDULE = Map.of(
+			new Lag(HAMBURG, GDANSK), List.of(
 			  of(GDANSK_EXPRESS, "2026-09-01", "2026-09-05"),
 			  of(GDANSK_EXPRESS, "2026-09-11", "2026-09-15"),
 			  of(GDANSK_EXPRESS, "2026-09-21", "2026-09-25"),
@@ -33,7 +33,7 @@ public class VesselScheduler {
 
 			),
 
-			new FromToCities(GDANSK, HAMBURG), List.of(
+			new Lag(GDANSK, HAMBURG), List.of(
 					of(GDANSK_EXPRESS, "2026-09-06", "2026-09-10"),
 					of(GDANSK_EXPRESS, "2026-09-16", "2026-09-20"),
 					of(GDANSK_EXPRESS, "2026-09-26", "2026-09-30"),
@@ -44,7 +44,7 @@ public class VesselScheduler {
 
 			),
 
-			new FromToCities(BREMEN, GDANSK), List.of(
+			new Lag(BREMEN, GDANSK), List.of(
 					of(GRUNWALD_EXPRESS, "2026-09-02", "2026-09-04"),
 					of(GRUNWALD_EXPRESS, "2026-09-10", "2026-09-12"),
 					of(GRUNWALD_EXPRESS, "2026-09-18", "2026-09-21"),
@@ -55,7 +55,7 @@ public class VesselScheduler {
 
 			),
 
-			new FromToCities(GDANSK, BREMEN), List.of(
+			new Lag(GDANSK, BREMEN), List.of(
 					of(GDANSK_EXPRESS, "2026-09-07", "2026-09-09"),
 					of(GDANSK_EXPRESS, "2026-09-15", "2026-09-17"),
 					of(GDANSK_EXPRESS, "2026-09-22", "2026-09-24"),
@@ -71,12 +71,12 @@ public class VesselScheduler {
 	);
 
 	@Tool("Return schedules of vessels that can transport containers from {fromCity} to {toCity} departing between {departureFrom} and {departureTo}.")
-	public List<VesselRoute> findRoute(String fromCity, String toCity, LocalDate departureFrom, LocalDate departureTo) {
+	public List<Coastal> findRoute(String fromCity, String toCity, LocalDate departureFrom, LocalDate departureTo) {
 
-		FromToCities fromToCities = new FromToCities(fromCity, toCity);
-		return SCHEDULE.get(fromToCities).stream()
+		Lag lag = new Lag(fromCity, toCity);
+		return SCHEDULE.get(lag).stream()
 				.filter(v -> v.departure().isAfter(departureFrom) && v.departure().isBefore(departureTo))
-				.map(v -> new VesselRoute(fromCity, toCity, v.departure(), v.arrival(), v.vessel()))
+				.map(v -> new Coastal(fromCity, toCity, v.departure(), v.arrival(), v.vessel()))
 				.toList();
 	}
 }

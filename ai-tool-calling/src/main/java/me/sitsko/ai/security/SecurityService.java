@@ -1,11 +1,11 @@
-package me.sitsko.ai.shared.security;
+package me.sitsko.ai.security;
 
 import dev.langchain4j.data.message.UserMessage;
 import jakarta.enterprise.context.ApplicationScoped;
 import java.util.regex.Pattern;
 
 @ApplicationScoped
-public class SecurityDeterministicService {
+public class SecurityService {
 
 	private static final Pattern PROHIBITED_WORDS = Pattern.compile(".*(MSC|hack|password).*", Pattern.CASE_INSENSITIVE);
 

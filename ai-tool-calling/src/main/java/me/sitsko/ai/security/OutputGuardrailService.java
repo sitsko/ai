@@ -1,4 +1,4 @@
-package me.sitsko.ai.shared.security;
+package me.sitsko.ai.security;
 
 import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.guardrail.OutputGuardrail;
@@ -6,7 +6,7 @@ import dev.langchain4j.guardrail.OutputGuardrailResult;
 import jakarta.enterprise.context.ApplicationScoped;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.sitsko.ai.shared.exception.DataLeakException;
+import me.sitsko.ai.exception.DataLeakException;
 
 @Slf4j
 @RequiredArgsConstructor

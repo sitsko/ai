@@ -10,6 +10,7 @@ import jakarta.ws.rs.Produces;
 import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.sitsko.ai.schedule.VoyageData;
 import org.jboss.resteasy.reactive.RestResponse;
 import org.jboss.resteasy.reactive.RestResponse.ResponseBuilder;
 import org.jboss.resteasy.reactive.RestResponse.Status;
@@ -47,7 +48,7 @@ public class BookingResource {
 		log.error("Unhandled agent invocation error", ex);
 		return ResponseBuilder.<BookingResponse>create(Status.INTERNAL_SERVER_ERROR)
 				.entity(BookingResponse.builder()
-						.responseRoutes(new ResponseRoutes(Collections.emptyList()))
+						.voyageData(new VoyageData(Collections.emptyList()))
 						.error(ex.getMessage())
 						.build())
 				.build();
@@ -58,7 +59,7 @@ public class BookingResource {
 		log.warn("Security violation detected in booking request", ex);
 		return ResponseBuilder.<BookingResponse>create(Status.FORBIDDEN)
 				.entity(BookingResponse.builder()
-						.responseRoutes(new ResponseRoutes(Collections.emptyList()))
+						.voyageData(new VoyageData(Collections.emptyList()))
 						.error(ex.getCause() != null ? ex.getCause().getMessage() : ex.getMessage())
 						.build())
 				.build();
@@ -69,7 +70,7 @@ public class BookingResource {
 		log.warn("Security violation detected in booking response", ex);
 		return ResponseBuilder.<BookingResponse>create(Status.FORBIDDEN)
 				.entity(BookingResponse.builder()
-						.responseRoutes(new ResponseRoutes(Collections.emptyList()))
+						.voyageData(new VoyageData(Collections.emptyList()))
 						.error(ex.getCause() != null ? ex.getCause().getMessage() : ex.getMessage())
 						.build())
 				.build();

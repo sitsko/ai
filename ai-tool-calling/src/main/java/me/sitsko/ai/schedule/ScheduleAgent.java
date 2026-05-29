@@ -1,21 +1,19 @@
-package me.sitsko.ai.booking;
+package me.sitsko.ai.schedule;
 
 import dev.langchain4j.agentic.Agent;
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 import dev.langchain4j.service.guardrail.OutputGuardrails;
-import io.quarkiverse.langchain4j.RegisterAiService;
 import io.quarkiverse.langchain4j.ToolBox;
-import me.sitsko.ai.schedule.VesselScheduler;
-import me.sitsko.ai.shared.security.OutputGuardrailService;
+import me.sitsko.ai.booking.UserStructuredRequest;
+import me.sitsko.ai.security.OutputGuardrailService;
 
-@RegisterAiService
-public interface VesselScheduleAgent {
+public interface ScheduleAgent {
 
 	@SystemMessage("""
 			You are a vessel schedule agent for containers in liner vessel company Hapag Lloyd.
 			
-			You should provide most suitable routes from existing schedule according user preferences about  departure and arrival dates, and containers count.
+			You should provide most suitable voyages from existing schedule according user preferences about  departure and arrival dates, and containers count.
 			
 			Response has to contain from 1 up to 3 proposals, the departure and arrival date deviation has not exceed 3 days.
 			The proposals has to be ordered by best relevance, i.e. with lowest date deviation compare to requirements.
@@ -23,7 +21,7 @@ public interface VesselScheduleAgent {
 			Format output only JSON:
 			
 			{
-				"routes": [
+				"voyages": [
 							{
                   "vessel": "<vessel name>",
                   "route": "<from city => to city>",
@@ -39,14 +37,14 @@ public interface VesselScheduleAgent {
 			Your entire response must start with '{' and end with '}'.
 			""")
 	@UserMessage("""
-      User request: {requestedRoute}
+      User request: {userStructuredRequest}
       Today is {current_date}.
       """	)
-	@ToolBox(VesselScheduler.class)
+	@ToolBox(ScheduleService.class)
 	@OutputGuardrails(OutputGuardrailService.class)
-	@Agent(name = "MrFrontDesker",
-			value = "Provides most suitable routes from existing schedule according user preferences about departure and arrival dates.",
+	@Agent(name = "MrScheduler",
+			value = "Provides most suitable voyages from existing schedule according user preferences about departure and arrival dates.",
 	    outputKey = "responseRoutes")
-	ResponseRoutes adviceRoutes(RequestedRoute requestedRoute);
+	VoyageData adviceRoutes(UserStructuredRequest userStructuredRequest);
 }
 

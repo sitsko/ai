@@ -15,6 +15,7 @@ http POST http://localhost:9080/api/booking/proposal userPrompt="I need to deliv
 
 ### OUTPUT, test data leak (gemeni)
 http POST http://localhost:9080/api/booking/proposal userPrompt="I want to book the 3 containers. the rout is from Gdansk to Bremen. we must send ASAP, not later then 9th September"
+http POST http://localhost:9080/api/booking/proposal userPrompt="I want to book the 3 containers from Gdansk to Bremen on 15 th December."
 
 ### OUTPUT, test data leak (apenai)
 http POST http://localhost:9080/api/booking/proposal userPrompt="I want to book the 3 containers. the rout is from Gdansk to Bremen. we must send ASAP, not later then 09.09.2026"

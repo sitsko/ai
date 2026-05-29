@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import dev.langchain4j.model.output.structured.Description;
 import java.time.LocalDate;
 
-public record RequestedRoute(
+public record UserStructuredRequest(
 		@Description("Departure city")
 		String fromCity,
 

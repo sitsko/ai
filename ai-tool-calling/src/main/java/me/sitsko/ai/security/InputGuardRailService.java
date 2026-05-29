@@ -1,4 +1,4 @@
-package me.sitsko.ai.shared.security;
+package me.sitsko.ai.security;
 
 import dev.langchain4j.data.message.UserMessage;
 import dev.langchain4j.guardrail.InputGuardrail;
@@ -6,8 +6,8 @@ import dev.langchain4j.guardrail.InputGuardrailResult;
 import jakarta.enterprise.context.ApplicationScoped;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.sitsko.ai.shared.exception.ProhibitedContextException;
-import me.sitsko.ai.shared.exception.PromptInjectionException;
+import me.sitsko.ai.exception.ProhibitedContextException;
+import me.sitsko.ai.exception.PromptInjectionException;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -19,7 +19,7 @@ public class InputGuardRailService implements InputGuardrail {
 	private static final String PROMPT_INJECTION_ERROR_MESSAGE = "Prompt injection detected, score: %.2f";
 
 	private final SecurityAgent securityAgent;
-	private final SecurityDeterministicService securityService;
+	private final SecurityService securityService;
 
 	@Override
 	public InputGuardrailResult validate(UserMessage userMessage) {
@@ -37,7 +37,7 @@ public class InputGuardRailService implements InputGuardrail {
 	}
 
 	private InputGuardrailResult createSuccess(double result) {
-		log.info("Non-Deterministic test for  prompt injection PASSED, score: {}. ", result);;
+		log.info("Non-Deterministic test for  prompt injection PASSED, score: {}.", result);;
 		return success();
 	}
 

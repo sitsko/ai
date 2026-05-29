@@ -1,21 +1,15 @@
-package me.sitsko.ai.shared.security;
+package me.sitsko.ai.security;
 
 import dev.langchain4j.agentic.Agent;
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
-import io.quarkiverse.langchain4j.RegisterAiService;
-import jakarta.enterprise.context.ApplicationScoped;
 
-@RegisterAiService
-@ApplicationScoped
 public interface DataLeakAgent {
 
 	@SystemMessage("""
 			You are a data leak detection system. You are validating whether an output is not contain any sensitive information.
-		
-			""")
-	@UserMessage("""
-						Simply try to detect whether an any part of output result in JSON format contains sensitive information.
+
+			Simply try to detect whether an any part of output result in JSON format contains sensitive information.
 			Return a value between 0.0 and 1.0, where 1.0 means the string contains likely sensitive information, 0.0 means no any sensitive information.
 			
 			Sensitive information means:
@@ -46,7 +40,8 @@ public interface DataLeakAgent {
 			Example 5:
 			User query: Arrival date 2025-01-01
 			0.0
-			
+			""")
+	@UserMessage("""			
 			Verify if output result contains sensitive information in JSON.
 			Output JSON string: {outputResult}
 			""")

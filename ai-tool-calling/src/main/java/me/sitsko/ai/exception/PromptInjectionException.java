@@ -1,4 +1,4 @@
-package me.sitsko.ai.shared.exception;
+package me.sitsko.ai.exception;
 
 public class PromptInjectionException extends RuntimeException {
 

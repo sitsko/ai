@@ -7,9 +7,10 @@ import lombok.Builder;
 public record VesselArrivalDeparture(
 		String vessel,
 		LocalDate arrival,
-		LocalDate departure
-) {
+		LocalDate departure) {
+
  public static VesselArrivalDeparture of(String vessel, String departure, String arrival) {
 	 return new VesselArrivalDeparture(vessel, LocalDate.parse(arrival), LocalDate.parse(departure));
  }
+
 }

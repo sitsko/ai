@@ -1,6 +1,6 @@
-package me.sitsko.ai.booking;
+package me.sitsko.ai.schedule;
 
-public record UserRouteProposal(
+public record VoyageResponse(
 		String vessel,
 		String route,
 		String trip,
