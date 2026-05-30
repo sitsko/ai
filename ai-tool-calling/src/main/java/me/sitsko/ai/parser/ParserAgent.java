@@ -4,7 +4,7 @@ import dev.langchain4j.agentic.Agent;
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 import dev.langchain4j.service.guardrail.InputGuardrails;
-import me.sitsko.ai.booking.UserStructuredRequest;
+import me.sitsko.ai.booking.BookingStructuredRequest;
 import me.sitsko.ai.security.InputGuardRailService;
 
 public interface ParserAgent {
@@ -88,8 +88,8 @@ public interface ParserAgent {
 	@Agent(
 			name = "MrParser",
 			value = "An expert in understanding user requirements for booking container and creating structured output.",
-	    outputKey = "requestedRoute"
+	    outputKey = "bookingStructuredRequest"
 	)
-	UserStructuredRequest reservationData(String userRequest);
+	BookingStructuredRequest reservationData(String userRequest);
 }
 

@@ -7,7 +7,7 @@ import me.sitsko.ai.schedule.VoyageData;
 public record BookingResponse(
 
 		String userRequest,
-		UserStructuredRequest userStructuredRequest,
+		BookingStructuredRequest bookingStructuredRequest,
 		VoyageData voyageData,
 		String error) {
 }

@@ -14,8 +14,8 @@ public interface BookingWorkflow {
 	BookingResponse reservationData(String userRequest);
 
 	@Output
-	static BookingResponse output(String userRequest, UserStructuredRequest userStructuredRequest, VoyageData voyageData) {
-		return new BookingResponse(userRequest, userStructuredRequest, voyageData, "");
+	static BookingResponse output(String userRequest, BookingStructuredRequest bookingStructuredRequest, VoyageData voyageData) {
+		return new BookingResponse(userRequest, bookingStructuredRequest, voyageData, "");
 	}
 }
 

@@ -5,7 +5,7 @@ import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 import dev.langchain4j.service.guardrail.OutputGuardrails;
 import io.quarkiverse.langchain4j.ToolBox;
-import me.sitsko.ai.booking.UserStructuredRequest;
+import me.sitsko.ai.booking.BookingStructuredRequest;
 import me.sitsko.ai.security.OutputGuardrailService;
 
 public interface ScheduleAgent {
@@ -37,14 +37,14 @@ public interface ScheduleAgent {
 			Your entire response must start with '{' and end with '}'.
 			""")
 	@UserMessage("""
-      User request: {userStructuredRequest}
+      User request: {bookingStructuredRequest}
       Today is {current_date}.
       """	)
 	@ToolBox(ScheduleService.class)
 	@OutputGuardrails(OutputGuardrailService.class)
 	@Agent(name = "MrScheduler",
 			value = "Provides most suitable voyages from existing schedule according user preferences about departure and arrival dates.",
-	    outputKey = "responseRoutes")
-	VoyageData adviceRoutes(UserStructuredRequest userStructuredRequest);
+	    outputKey = "voyageData")
+	VoyageData adviceRoutes(BookingStructuredRequest bookingStructuredRequest);
 }
 
