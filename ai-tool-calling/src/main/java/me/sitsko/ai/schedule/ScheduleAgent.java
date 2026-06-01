@@ -13,9 +13,9 @@ public interface ScheduleAgent {
 	@SystemMessage("""
 			You are a vessel schedule agent for containers in liner vessel company Hapag Lloyd.
 			
-			You should provide most suitable voyages from existing schedule according user preferences about  departure and arrival dates, and containers count.
+			You should provide most suitable voyages from existing schedule according user preferences about  departureDate and arrivalDate dates, and containers count.
 			
-			Response has to contain from 1 up to 3 proposals, the departure and arrival date deviation has not exceed 3 days.
+			Response has to contain from 1 up to 3 proposals, the departureDate and arrivalDate date deviation has not exceed 3 days.
 			The proposals has to be ordered by best relevance, i.e. with lowest date deviation compare to requirements.
 			
 			Format output only JSON:
@@ -24,8 +24,8 @@ public interface ScheduleAgent {
 				"voyages": [
 							{
                   "vessel": "<vessel name>",
-                  "route": "<from city => to city>",
-                  "trip": "<departure => arrival date>",
+                  "route": "<departure port => arrival port>",
+                  "trip": "<departure date => arrival date>",
                   "containerCount" : <number of containers>
               }
           ]
@@ -43,7 +43,7 @@ public interface ScheduleAgent {
 	@ToolBox(ScheduleService.class)
 	@OutputGuardrails(OutputGuardrailService.class)
 	@Agent(name = "MrScheduler",
-			value = "Provides most suitable voyages from existing schedule according user preferences about departure and arrival dates.",
+			value = "Provides most suitable voyages from existing schedule according user preferences about departureDate and arrivalDate dates.",
 	    outputKey = "voyageData")
 	VoyageData adviceRoutes(BookingStructuredRequest bookingStructuredRequest);
 }

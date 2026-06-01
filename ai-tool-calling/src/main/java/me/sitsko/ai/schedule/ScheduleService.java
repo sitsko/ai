@@ -2,81 +2,60 @@ package me.sitsko.ai.schedule;
 
 import dev.langchain4j.agent.tool.Tool;
 import jakarta.enterprise.context.ApplicationScoped;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import static me.sitsko.ai.schedule.VesselArrivalDeparture.of;
+import me.sitsko.ai.exception.VoyageDataSourceException;
 
 @ApplicationScoped
 public class ScheduleService {
 
-	private static final String HAMBURG = "Hamburg";
-	private static final String BREMEN = "Bremen";
-	public static final String GDANSK = "Gdansk";
+	@Tool("""
+	Return schedules from the voyage database for vessels that can transport containers from {departurePort} to {arrivalPort}
+	departing between {departureDateFrom} and {departureDateTo}.
+	""")
+	public List<Coastal> findRoute2(
+			String departurePort,
+			String arrivalPort,
+			LocalDate departureDateFrom,
+			LocalDate departureDateTo) {
+		List<Coastal> results = new ArrayList<>();
+		try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("voyages.csv");
+				BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
+			String header = reader.readLine();
+			String line = null;
+			while ((line = reader.readLine()) != null) {
+				parseLine(departurePort, arrivalPort, departureDateFrom, departureDateTo, line, results);
+			}
+		} catch (IOException e) {
+			throw new VoyageDataSourceException("Failed to read voyages.csv", e);
+		}
+		return results;
+	}
 
-	public static final String GDANSK_EXPRESS = "Gdansk Express";
-	public static final String BERLIN_EXPRESS = "Berlin Express";
-	public static final String GRUNWALD_EXPRESS = "Grunwald Express";
-
-	private static final String POLOTSK_EXPRESS = "Polotsk Express";
-
-	private static final Map<Lag, List<VesselArrivalDeparture>> SCHEDULE = Map.of(
-			new Lag(HAMBURG, GDANSK), List.of(
-			  of(GDANSK_EXPRESS, "2026-09-01", "2026-09-05"),
-			  of(GDANSK_EXPRESS, "2026-09-11", "2026-09-15"),
-			  of(GDANSK_EXPRESS, "2026-09-21", "2026-09-25"),
-
-				of(BERLIN_EXPRESS, "2026-09-03", "2026-09-08"),
-				of(BERLIN_EXPRESS, "2026-09-13", "2026-09-18"),
-				of(BERLIN_EXPRESS, "2026-09-23", "2026-09-28")
-
-			),
-
-			new Lag(GDANSK, HAMBURG), List.of(
-					of(GDANSK_EXPRESS, "2026-09-06", "2026-09-10"),
-					of(GDANSK_EXPRESS, "2026-09-16", "2026-09-20"),
-					of(GDANSK_EXPRESS, "2026-09-26", "2026-09-30"),
-
-					of(BERLIN_EXPRESS, "2026-09-09", "2026-09-13"),
-					of(BERLIN_EXPRESS, "2026-09-19", "2026-09-23"),
-					of(BERLIN_EXPRESS, "2026-09-29", "2026-10-02")
-
-			),
-
-			new Lag(BREMEN, GDANSK), List.of(
-					of(GRUNWALD_EXPRESS, "2026-09-02", "2026-09-04"),
-					of(GRUNWALD_EXPRESS, "2026-09-10", "2026-09-12"),
-					of(GRUNWALD_EXPRESS, "2026-09-18", "2026-09-21"),
-
-					of(POLOTSK_EXPRESS, "2026-09-03", "2026-09-05"),
-					of(POLOTSK_EXPRESS, "2026-09-15", "2026-09-17"),
-					of(POLOTSK_EXPRESS, "2026-09-27", "2026-09-29")
-
-			),
-
-			new Lag(GDANSK, BREMEN), List.of(
-					of(GDANSK_EXPRESS, "2026-09-07", "2026-09-09"),
-					of(GDANSK_EXPRESS, "2026-09-15", "2026-09-17"),
-					of(GDANSK_EXPRESS, "2026-09-22", "2026-09-24"),
-
-					of("Mikalai Sitsko, tel. 123124", "2026-09-09", "2026-09-11"),
-
-					of(POLOTSK_EXPRESS, "2026-09-08", "2026-09-10"),
-					of(POLOTSK_EXPRESS, "2026-09-18", "2026-09-22"),
-					of(POLOTSK_EXPRESS, "2026-10-01", "2026-10-03")
-
-			)
-
-	);
-
-	@Tool("Return schedules of vessels that can transport containers from {fromCity} to {toCity} departing between {departureFrom} and {departureTo}.")
-	public List<Coastal> findRoute(String fromCity, String toCity, LocalDate departureFrom, LocalDate departureTo) {
-
-		Lag lag = new Lag(fromCity, toCity);
-		return SCHEDULE.get(lag).stream()
-				.filter(v -> v.departure().isAfter(departureFrom) && v.departure().isBefore(departureTo))
-				.map(v -> new Coastal(fromCity, toCity, v.departure(), v.arrival(), v.vessel()))
-				.toList();
+	private void parseLine(
+			String departurePort,
+			String arrivalPort,
+			LocalDate departureDateFrom,
+			LocalDate departureDateTo,
+			String line,
+			List<Coastal> results) {
+		String[] parts = line.split(";");
+		if (parts.length < 5)
+			return;
+		String depPort = parts[0].trim();
+		String arrPort = parts[1].trim();
+		String vessel  = parts[2].trim();
+		LocalDate depDate = LocalDate.parse(parts[3].trim());
+		LocalDate arrDate = LocalDate.parse(parts[4].trim());
+		if (depPort.equals(departurePort) && arrPort.equals(arrivalPort)
+				&& depDate.isAfter(departureDateFrom) && depDate.isBefore(departureDateTo)) {
+			results.add(new Coastal(departurePort, arrivalPort, depDate, arrDate, vessel));
+		}
 	}
 }

@@ -5,27 +5,27 @@ import dev.langchain4j.model.output.structured.Description;
 import java.time.LocalDate;
 
 public record BookingStructuredRequest(
-		@Description("Departure city")
-		String fromCity,
+		@Description("Departure port")
+		String departurePort,
 
-		@Description("Arrival city")
-		String toCity,
+		@Description("Arrival port")
+		String arrivalPort,
 
 		@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 		@Description("Departure date")
-		LocalDate departure,
+		LocalDate departureDate,
 
 		@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 		@Description("Arrival date")
-		LocalDate arrival,
+		LocalDate arrivalDate,
 
 		@Description("Numbers of containers")
 		int containerCount,
 
-		@Description("How confident requirement about departure date")
+		@Description("How confident requirement about departureDate date")
 		double departureConfidence,
 
-		@Description("How confident requirement about arrival date")
+		@Description("How confident requirement about arrivalDate date")
 		double arrivalConfidence
 ) {
 

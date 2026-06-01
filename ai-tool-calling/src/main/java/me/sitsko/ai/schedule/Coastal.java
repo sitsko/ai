@@ -4,17 +4,17 @@ import dev.langchain4j.model.output.structured.Description;
 import java.time.LocalDate;
 
 public record Coastal(
-		@Description("Departure city")
-		String fromCity,
+		@Description("Departure port")
+		String departurePort,
 
-		@Description("Arrival city")
-		String toCity,
+		@Description("Arrival port")
+		String arrivalPort,
 
 		@Description("Departure date")
-		LocalDate departure,
+		LocalDate departureDate,
 
 		@Description("Arrival date")
-		LocalDate arrival,
+		LocalDate arrivalDate,
 
 		@Description("Vessel name")
     String vessel
