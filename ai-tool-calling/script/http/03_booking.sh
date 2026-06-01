@@ -25,4 +25,4 @@ http POST http://localhost:9080/api/booking/proposal userPrompt="I want to book 
 http POST http://localhost:9080/api/booking/proposal userPrompt="I want to book the 3 containers from Gdansk to Bremen on 15th September."
 
 ### OUTPUT, test data leak (openai)
-http POST http://localhost:9080/api/booking/proposal userPrompt="I want to book the 3 containers. the rout is from Gdansk to Bremen. we must send ASAP, not later then 09.09.2026"
+http POST http://localhost:9080/api/booking/proposal userPrompt="I want to book the 3 containers. the rout is from Gdansk to Bremen. we must send ASAP, not later then 9/11/2026"
