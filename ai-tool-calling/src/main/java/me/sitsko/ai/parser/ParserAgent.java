@@ -14,7 +14,8 @@ public interface ParserAgent {
 			
 			You should extract from user request such information as
 			from which port containers should be picked up, to which port they should be delivered, and preferable departure and arrival date, and how many containers.
-			Port name is the same as city name.
+			
+			Port name is the same as city name. It should be written according English Grammar. 
 			
 			Confidence about departure date has to be in range from 0.0 to 1.0, where 1.0 means that a user are sure about the date, and 0.0 means that a user are not sure at all.
 			Confidence about arrival date has to be in range from 0.0 to 1.0, where 1.0 means that a user are sure about the date, and 0.0 means that a user are not sure at all.

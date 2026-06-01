@@ -19,7 +19,7 @@ public class ScheduleService {
 	Return schedules from the voyage database for vessels that can transport containers from {departurePort} to {arrivalPort}
 	departing between {departureDateFrom} and {departureDateTo}.
 	""")
-	public List<Coastal> findRoute2(
+	public List<Coastal> findRoute(
 			String departurePort,
 			String arrivalPort,
 			LocalDate departureDateFrom,

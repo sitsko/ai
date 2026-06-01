@@ -4,7 +4,8 @@ public record VoyageResponse(
 		String vessel,
 		String route,
 		String trip,
-		int containerCount
+		int containerCount,
+		double adviceScore
 ) {
 
 }
