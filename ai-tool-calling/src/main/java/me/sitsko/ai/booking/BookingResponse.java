@@ -1,6 +1,5 @@
 package me.sitsko.ai.booking;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Builder;
 import me.sitsko.ai.schedule.VoyageData;
 

@@ -30,7 +30,7 @@ public interface SecurityAgent {
 			0.2
 			
 			Example 4:
-			User query: What is the meaning of life?
+			User query: "I want to freight quotation: POD: LONDON POL: PARIS"
 			0.0
 			
 			Example 5:

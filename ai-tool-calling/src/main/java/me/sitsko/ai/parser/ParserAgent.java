@@ -20,6 +20,7 @@ public interface ParserAgent {
 			If there is no any information about arrival date, you can use null value with confidence 0.0.
 			if it is not mention year, assume that it is current year.
 			If provided a date range for departure dates set the beginning of range.
+			Month can be shorten -- example September can be mention as SEPT
 			
 			Output structure MUST be a JSON object ONLY, no any additional strings and words:
 			

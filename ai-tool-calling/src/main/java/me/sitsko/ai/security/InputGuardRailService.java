@@ -33,7 +33,7 @@ public class InputGuardRailService implements InputGuardrail {
 		double result = securityAgent.isInjection(userMessage.singleText());
 		boolean isInjected = result >= INJECTION_THRESHOLD;
 
-		return isInjected ? createFailor(result) : createSuccess(result);
+		return isInjected ? createFailure(result) : createSuccess(result);
 	}
 
 	private InputGuardrailResult createSuccess(double result) {
@@ -41,7 +41,7 @@ public class InputGuardRailService implements InputGuardrail {
 		return success();
 	}
 
-	private InputGuardrailResult createFailor(double result) {
+	private InputGuardrailResult createFailure(double result) {
 		log.warn("Non-Deterministic test for  prompt injection FAILED, score: {}. ", result);
 		return failure("", new PromptInjectionException(formatErrorMessage(result)));
 	}
