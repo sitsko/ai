@@ -31,6 +31,9 @@ public interface ParserAgent {
 			- If no arrival date is provided, use null with confidence 0.0.
 			- All dates must be formatted as YYYY-MM-DD (no time or timezone).
 			- Month names may be abbreviated (e.g. "SEPT" = September).
+			- "beginning/start/early of [month]" → use day 1 of that month, confidence 0.6.
+			- "middle/mid of [month]" → use day 15 of that month, confidence 0.6.
+			- "end/late/close of [month]" → use the last calendar day of that month, confidence 0.6.
 
 			## Confidence
 			- departureConfidence and arrivalConfidence are doubles between 0.0 and 1.0.
@@ -95,6 +98,19 @@ public interface ParserAgent {
 			   "containerCount": 10,
 			   "departureConfidence": 0.9,
 			   "arrivalConfidence": 0.0
+			}
+
+			Example 4.
+			User query: I need to ship 20 containers from Hamburg to Rotterdam. We'd like to depart at the beginning of October and arrive in the middle of October.
+			Output:
+			{
+			   "departurePort": "Hamburg",
+			   "arrivalPort": "Rotterdam",
+			   "departureDate": "2026-10-01",
+			   "arrivalDate": "2026-10-15",
+			   "containerCount": 20,
+			   "departureConfidence": 0.6,
+			   "arrivalConfidence": 0.6
 			}
 			""")
 	@UserMessage("""
