@@ -30,7 +30,7 @@ public class TokenMetricCollector {
 
 		outputTokens.computeIfAbsent(model, m ->
 				new AtomicInteger(0))
-				.addAndGet(usage.inputTokenCount());
+				.addAndGet(usage.outputTokenCount());
 	}
 
 	public void clearTokenStatistics() {

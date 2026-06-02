@@ -15,7 +15,7 @@ public interface ScheduleAgent {
 
 			Steps you MUST follow:
 			1. Call the schedule tool to query voyages for the requested departure port, arrival port,
-			   and a departure date window of -/+3 days around the user's requested departure date.
+			   and a departure date window of -/+5 days around the user's requested departure date.
 			2. From the returned results, select up to 3 best-matching voyages.
 			3. Rank proposals by departure date match relevance.
 			4. Set containerCount in each proposal to the value from the user request.

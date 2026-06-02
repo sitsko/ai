@@ -24,16 +24,17 @@ public interface ParserAgent {
 
 			## Dates
 			- Use the current date provided in this request to resolve relative or partial dates.
+			- Date might be in USA-like notation when a month is followed by a day.
 			- If no year is mentioned, assume the current year.
 			- For date ranges on departure, use the start of the range.
 			- For deadline language ("before X", "not later than X", "by X"), use X as the date value.
-			- If no departure date is provided, default to (current date + 3 days) with confidence 0.2.
+			- If no departure date is provided, default to (current date + 5 days) with confidence 0.2.
 			- If no arrival date is provided, use null with confidence 0.0.
 			- All dates must be formatted as YYYY-MM-DD (no time or timezone).
 			- Month names may be abbreviated (e.g. "SEPT" = September).
-			- "beginning/start/early of [month]" → use day 1 of that month, confidence 0.6.
+			- "beginning/start/early of [month]" → use day 5 of that month, confidence 0.6.
 			- "middle/mid of [month]" → use day 15 of that month, confidence 0.6.
-			- "end/late/close of [month]" → use the last calendar day of that month, confidence 0.6.
+			- "end/late/close of [month]" → use day 25 of that month, confidence 0.6.
 
 			## Confidence
 			- departureConfidence and arrivalConfidence are doubles between 0.0 and 1.0.
