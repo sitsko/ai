@@ -1,4 +1,8 @@
 ### OUTPUT test incomplete question (empty result)
+http GET http://localhost:9080/api/metrics/tokens
+http DELETE http://localhost:9080/api/metrics/tokens
+
+### OUTPUT test incomplete question (empty result)
 http POST http://localhost:9080/api/booking/proposal userPrompt="User question"
 
 
