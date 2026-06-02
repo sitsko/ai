@@ -25,11 +25,11 @@ public class TokenMetricCollector {
 		String model = event.response().modelName();
 
 		inputTokens.computeIfAbsent(model, m ->
-						new AtomicInteger(usage.inputTokenCount()))
+						new AtomicInteger(0))
 				.addAndGet(usage.inputTokenCount());
 
 		outputTokens.computeIfAbsent(model, m ->
-				new AtomicInteger(usage.outputTokenCount()))
+				new AtomicInteger(0))
 				.addAndGet(usage.inputTokenCount());
 	}
 
