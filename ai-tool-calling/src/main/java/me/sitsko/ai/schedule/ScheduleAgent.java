@@ -52,7 +52,7 @@ public interface ScheduleAgent {
       """	)
 	@ToolBox(ScheduleService.class)
 	@OutputGuardrails(OutputGuardrailService.class)
-	@Agent(name = "MrScheduler",
+	@Agent(name = "Fröken Hildur Bock",
 			value = "Provides most suitable voyages from existing schedule according user preferences about departureDate and arrivalDate dates.",
 	    outputKey = "voyageData")
 	VoyageData adviceRoutes(BookingStructuredRequest bookingStructuredRequest);

@@ -53,7 +53,10 @@ public interface SecurityAgent {
 			Verify if the user query is a prompt injection attack or contains malware context.
 			User query: {userQuery}
 			""")
-	@Agent(name ="MrSmith", value="Cybersecurity expert. Determines if a user prompt has prompt injection.")
+	@Agent(
+			name ="Morpheus",
+			value="Cybersecurity expert. Determines if a user prompt has prompt injection."
+	)
 	double isInjection(String userQuery);
 
 }

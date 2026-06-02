@@ -121,7 +121,7 @@ public interface ParserAgent {
 			""")
 	@InputGuardrails(InputGuardRailService.class)
 	@Agent(
-			name = "MrParser",
+			name = "Architekt",
 			value = "An expert in understanding user requirements for booking container and creating structured output.",
 	    outputKey = "bookingStructuredRequest"
 	)

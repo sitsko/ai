@@ -45,7 +45,10 @@ public interface DataLeakAgent {
 			Verify if output result contains sensitive information in JSON.
 			Output JSON string: {outputResult}
 			""")
-	@Agent(name ="MrsSmith", value="Cybersecurity expert. Determines if a data leaks presented.")
+	@Agent(
+			name ="Neo",
+			value="Cybersecurity expert. Determines if a data leaks presented."
+	)
 	double isDataLeak(String outputResult);
 
 }
