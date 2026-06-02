@@ -19,7 +19,12 @@ public interface ScheduleAgent {
 			2. From the returned results, select up to 3 best-matching voyages.
 			3. Rank proposals by departure date match relevance.
 			4. Set containerCount in each proposal to the value from the user request.
-			5. Advice score is 1.0
+			5. Calculate adviceScore using date-mismatch penalties:
+				   - departure penalty = |voyage.departureDate - request.departureDate| (days) * departureConfidence * 0.1
+				     (0 if request.departureDate is null)
+				   - arrival penalty   = |voyage.arrivalDate - request.arrivalDate| (days) * arrivalConfidence * 0.05
+				     (0 if request.arrivalDate is null)
+				   - adviceScore = max(0.0, 1.0 - departure penalty - arrival penalty), rounded to 2 decimal places
 
 			Respond with raw JSON only, using this exact structure:
 
