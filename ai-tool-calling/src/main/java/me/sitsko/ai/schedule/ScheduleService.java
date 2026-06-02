@@ -4,16 +4,19 @@ import dev.langchain4j.agent.tool.Tool;
 import jakarta.enterprise.context.ApplicationScoped;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import me.sitsko.ai.exception.VoyageDataSourceException;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @ApplicationScoped
 public class ScheduleService {
+
+	@ConfigProperty(name = "app.voyages.path")
+	String voyagesPath;
 
 	@Tool("""
 	Return schedules from the voyage database for vessels that can transport containers from {departurePort} to {arrivalPort}
@@ -25,15 +28,14 @@ public class ScheduleService {
 			LocalDate departureDateFrom,
 			LocalDate departureDateTo) {
 		List<Coastal> results = new ArrayList<>();
-		try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("voyages.csv");
-				BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
-			String header = reader.readLine();
-			String line = null;
+		try (BufferedReader reader = Files.newBufferedReader(Path.of(voyagesPath))) {
+			reader.readLine(); // skip header
+			String line;
 			while ((line = reader.readLine()) != null) {
 				parseLine(departurePort, arrivalPort, departureDateFrom, departureDateTo, line, results);
 			}
 		} catch (IOException e) {
-			throw new VoyageDataSourceException("Failed to read voyages.csv", e);
+			throw new VoyageDataSourceException("Failed to read voyages file: " + voyagesPath, e);
 		}
 		return results;
 	}
