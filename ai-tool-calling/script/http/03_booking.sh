@@ -21,6 +21,9 @@ http POST http://localhost:9080/api/booking/proposal userPrompt="Would like to a
 
 ### OUTPUT, test several outputs
 http POST http://localhost:9080/api/booking/proposal userPrompt="I want to book the 3 containers. the rout is from Gdansk to Hamburg. we must send ASAP, not later then 9th September"
+http POST http://localhost:9080/api/booking/proposal userPrompt="Ich möchte die drei Container buchen. Die Route führt von Danzig nach Hamburg. Wir müssen sie so schnell wie möglich, spätestens jedoch bis zum 9. September, versenden."
+http POST http://localhost:9080/api/booking/proposal userPrompt="Chciałbym zarezerwować trzy kontenery. z Gdańska do Hamburga. Musimy ich wysłać jak najszybciej, ale nie później niż 9 września."
+http POST http://localhost:9080/api/booking/proposal userPrompt="Забраніруйце 3 кантэйнера. Кірунак з Гданьска да Гамбурга. мы павінны выслаць як мага хутчэй, але не пазней за 9-ага верасня"
 
 ### OUTPUT, test data leak (phone number
 http POST http://localhost:9080/api/booking/proposal userPrompt="I want to book the 5 containers from Rotterdam to Tokyo on 3rd September."

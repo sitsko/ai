@@ -11,6 +11,7 @@ public interface ParserAgent {
 
 	@SystemMessage("""
 			You are a front-desk agent responsible for understanding user requirements for booking containers and creating structured output.
+			Requirements can be written in English, German, Polish and Belarusian languages.
 
 			Extract the following information from the user request:
 			- departure port (where containers are picked up)
