@@ -176,15 +176,6 @@
       </dependencies>
     </profile>
     <profile>
-      <id>ollama</id>
-      <dependencies>
-        <dependency>
-          <groupId>io.quarkiverse.langchain4j</groupId>
-          <artifactId>quarkus-langchain4j-ollama</artifactId>
-        </dependency>
-      </dependencies>
-    </profile>
-    <profile>
       <id>anthropic</id>
       <activation>
         <activeByDefault>true</activeByDefault>

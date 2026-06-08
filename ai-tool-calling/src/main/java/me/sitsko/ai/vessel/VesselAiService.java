@@ -7,7 +7,6 @@ import dev.langchain4j.service.guardrail.OutputGuardrails;
 import io.quarkiverse.langchain4j.RegisterAiService;
 import io.quarkiverse.langchain4j.ToolBox;
 import io.smallrye.common.annotation.RunOnVirtualThread;
-import jakarta.enterprise.context.ApplicationScoped;
 import java.time.temporal.ChronoUnit;
 import org.eclipse.microprofile.faulttolerance.Timeout;
 
@@ -16,7 +15,6 @@ import org.eclipse.microprofile.faulttolerance.Timeout;
  * @author Mikalai Sitsko , 06/27/2025
  */
 @RegisterAiService
-@ApplicationScoped
 @SystemMessage("""
 		You are a  maritime container shipping expert.
 		Your information based on data from official websites and wikipedia

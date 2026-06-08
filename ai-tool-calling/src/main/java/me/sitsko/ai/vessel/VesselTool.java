@@ -46,8 +46,8 @@ public class VesselTool {
 			new Vessel(9686666, "ONE Stork", 14_144, ONE),
 			new Vessel(9731440, "ONE Mechanical", 14_144, ONE),
 
-			new Vessel(7777777, "dummy vesel", 88_888, EVERGREEN)
-			//new Vessel(7777777, "Real vesel", 88_888, EVERGREEN)
+			new Vessel(7777777, "dummy vessel", 88_888, EVERGREEN)
+			//new Vessel(7777777, "Real vessel", 88_888, EVERGREEN)
 	);
 
 	@Tool("Return generic vessels information such as IMO number, name, TEU size and owner.")
