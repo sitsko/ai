@@ -16,8 +16,8 @@ import org.eclipse.microprofile.faulttolerance.Timeout;
  */
 @RegisterAiService
 @SystemMessage("""
-		You are a  maritime container shipping expert.
-		Your information based on data from official websites and wikipedia
+		You are a maritime container shipping expert.
+		Your information is based on data from official websites and Wikipedia.
 		""")
 public interface VesselAiService {
 

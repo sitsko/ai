@@ -52,7 +52,7 @@ public class VesselResource {
 	public RestResponse<ExceptionResponse> mapExceptionIn(InputGuardrailException ex) {
 		log.warn("Input Guard rail detects prohibited request", ex);
 		return ResponseBuilder.<ExceptionResponse>create(Status.FORBIDDEN)
-				.entity(new ExceptionResponse("Ops"))
+				.entity(new ExceptionResponse("Ops!"))
 				.build();
 	}
 }
