@@ -7,10 +7,13 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
+
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import dev.sitsko.ai.schedule.VoyageData;
+import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.jboss.resteasy.reactive.RestResponse;
 import org.jboss.resteasy.reactive.RestResponse.ResponseBuilder;
 import org.jboss.resteasy.reactive.RestResponse.Status;
@@ -30,6 +33,7 @@ public class BookingResource {
 
 	@POST
 	@Path("/proposal")
+	@Timeout(value = 600, unit = ChronoUnit.SECONDS)
 	public BookingResponse proposeVariants(BookingRequest bookingRequest) {
 		log.info("user request: {}", bookingRequest.toString());
 		return bookingWorkflow.reservationData(bookingRequest.userPrompt());
