@@ -18,23 +18,23 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 @Consumes(APPLICATION_JSON)
 public class MetricResource {
 
-	private final TokenMetricCollector tokenMetricCollector;
+    private final TokenMetricCollector tokenMetricCollector;
 
-	@Path("/tokens")
-	@GET
-	public TokenStatistic fetchTokenStatistics(){
-		List<TokenUsage> inputTokens = tokenMetricCollector.getInputTokens().entrySet().stream()
-				.map(e -> new TokenUsage(e.getKey(), e.getValue().get()))
-				.toList();
-		List<TokenUsage> outputTokens = tokenMetricCollector.getOutputTokens().entrySet().stream()
-				.map(e -> new TokenUsage(e.getKey(), e.getValue().get()))
-				.toList();
-		return new TokenStatistic(inputTokens, outputTokens);
-	}
+    @Path("/tokens")
+    @GET
+    public TokenStatistic fetchTokenStatistics() {
+        List<TokenUsage> inputTokens = tokenMetricCollector.getInputTokens().entrySet().stream()
+                .map(e -> new TokenUsage(e.getKey().model(), e.getKey().agent(), e.getValue().get()))
+                .toList();
+        List<TokenUsage> outputTokens = tokenMetricCollector.getOutputTokens().entrySet().stream()
+                .map(e -> new TokenUsage(e.getKey().model(), e.getKey().agent(), e.getValue().get()))
+                .toList();
+        return new TokenStatistic(inputTokens, outputTokens);
+    }
 
-	@Path("/tokens")
-	@DELETE
-	public void flushTokenStatistics(){
-		tokenMetricCollector.clearTokenStatistics();
-	}
+    @Path("/tokens")
+    @DELETE
+    public void flushTokenStatistics() {
+        tokenMetricCollector.clearTokenStatistics();
+    }
 }
