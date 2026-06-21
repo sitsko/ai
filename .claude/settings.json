@@ -12,6 +12,10 @@
       {
         "matcher": "Grep",
         "hooks": [{ "type": "command", "command": "bash .claude/hooks/block-env-access.sh" }]
+      },
+      {
+        "matcher": "Edit",
+        "hooks": [{ "type": "command", "command": "bash .claude/hooks/block-env-access.sh" }]
       }
     ]
   }
