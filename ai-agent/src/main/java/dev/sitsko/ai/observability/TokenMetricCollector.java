@@ -1,9 +1,7 @@
 package dev.sitsko.ai.observability;
 
 import dev.langchain4j.model.output.TokenUsage;
-import dev.langchain4j.observability.api.event.AiServiceResponseReceivedEvent;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.event.Observes;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -12,35 +10,30 @@ import lombok.Getter;
 @ApplicationScoped
 public class TokenMetricCollector {
 
-	@Getter
-	private final Map<String, AtomicInteger> inputTokens = new ConcurrentHashMap<>();
+    @Getter
+    private final Map<ModelAgentKey, AtomicInteger> inputTokens = new ConcurrentHashMap<>();
 
-	@Getter
-	private final Map<String, AtomicInteger> outputTokens = new ConcurrentHashMap<>();
+    @Getter
+    private final Map<ModelAgentKey, AtomicInteger> outputTokens = new ConcurrentHashMap<>();
 
-	public void onResponse(@Observes AiServiceResponseReceivedEvent event) {
-		TokenUsage usage = event.response().tokenUsage();
-		if (usage == null) return;
+    public void record(ModelAgentKey key, TokenUsage usage) {
+        if (usage == null) return;
 
-		String model = event.response().modelName();
+        inputTokens.computeIfAbsent(key, k -> new AtomicInteger(0))
+                .addAndGet(usage.inputTokenCount());
 
-		inputTokens.computeIfAbsent(model, m ->
-						new AtomicInteger(0))
-				.addAndGet(usage.inputTokenCount());
+        outputTokens.computeIfAbsent(key, k -> new AtomicInteger(0))
+                .addAndGet(usage.outputTokenCount());
+    }
 
-		outputTokens.computeIfAbsent(model, m ->
-				new AtomicInteger(0))
-				.addAndGet(usage.outputTokenCount());
-	}
+    public void clearTokenStatistics() {
+        flushTokens(inputTokens);
+        flushTokens(outputTokens);
+    }
 
-	public void clearTokenStatistics() {
-		flushTokens(inputTokens);
-		flushTokens(outputTokens);
-	}
-
-	private void flushTokens(Map<String, AtomicInteger> inputCounters) {
-		for (AtomicInteger counter : inputCounters.values()) {
-			counter.set(0);
-		}
-	}
+    private void flushTokens(Map<ModelAgentKey, AtomicInteger> counters) {
+        for (AtomicInteger counter : counters.values()) {
+            counter.set(0);
+        }
+    }
 }

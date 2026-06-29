@@ -21,17 +21,23 @@ deny() {
   exit 0
 }
 
+# Matches: .env, .env.local, env.private, env.aws, path/to/env.secret
+# Does NOT match: environment.txt, myenv.txt
+env_pattern() { grep -iqE '\.env|(^|[^a-zA-Z0-9])env\.'; }
+
 case "$tool" in
-  Read)
+  Read|Edit)
     target=$(echo "$input" | jq -r '.tool_input.file_path // ""')
-    if echo "$target" | grep -qE '\.env'; then deny; fi
+    if echo "$target" | env_pattern; then deny; fi
     ;;
   Bash)
     target=$(echo "$input" | jq -r '.tool_input.command // ""')
-    if echo "$target" | grep -qE '\.env'; then deny; fi
+    if echo "$target" | env_pattern; then deny; fi
     ;;
   Grep)
-    target=$(echo "$input" | jq -r '.tool_input.path // ""')
-    if echo "$target" | grep -qE '\.env'; then deny; fi
+    path=$(echo "$input"    | jq -r '.tool_input.path // ""')
+    include=$(echo "$input" | jq -r '.tool_input.include // ""')
+    if echo "$path"    | env_pattern; then deny; fi
+    if echo "$include" | env_pattern; then deny; fi
     ;;
 esac

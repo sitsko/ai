@@ -8,4 +8,4 @@ echo "*******************************************************************"
 echo "Starting Langfuse"
 echo "*******************************************************************"
 
-docker compose -f docker/langfuse-docker-compose.yml up
+docker compose -f script/docker/langfuse-docker-compose.yml up --detach
