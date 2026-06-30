@@ -87,8 +87,8 @@ langfuse.public-key=${LANGFUSE_PUBLIC_KEY:dummy}
 langfuse.secret-key=${LANGFUSE_SECRET_KEY:dummy}
 
 # Include prompt and response content in OTEL spans
-quarkus.langchain4j.tracing.include-input=true
-quarkus.langchain4j.tracing.include-output=true
+quarkus.langchain4j.tracing.include-prompt=true
+quarkus.langchain4j.tracing.include-completion=true
 ```
 
 #### `.env`
@@ -178,6 +178,6 @@ The `LANGFUSE_INIT_PROJECT_PUBLIC_KEY` and `LANGFUSE_INIT_PROJECT_SECRET_KEY` va
 
 - **No standalone OTEL Collector:** Avoided to keep Docker Compose minimal. The secondary exporter pattern (via `TracerProviderCustomizer`) achieves fan-out at the app level.
 - **LGTM DevService retained:** The devservice handles Tempo, Mimir, Loki, and Grafana. Docker Compose only adds what the devservice doesn't provide (Langfuse).
-- **Prompt content in spans:** `quarkus.langchain4j.tracing.include-input/output=true` sends full prompt and response text into span events. Disable in production to avoid shipping sensitive data. **Verify exact property names against `quarkus-langchain4j` docs for the version in use (3.36.2) before implementing.**
+- **Prompt content in spans:** `quarkus.langchain4j.tracing.include-prompt=true` and `quarkus.langchain4j.tracing.include-completion=true` send prompt and response text into span events (from `TracingConfig` in quarkus-langchain4j-core 1.10.0). Disable in production to avoid shipping sensitive data.
 - **Cost tracking:** Langfuse computes cost from `gen_ai.model` and token counts using its internal pricing table — no custom implementation needed.
 - **Latency correlation:** Start/response event pairing in `MicrometerTokenExporter` uses a `ConcurrentHashMap` keyed by a correlation identifier from the event. Implementation detail: verify what correlation field is available on `AiServiceStartedEvent` and `AiServiceResponseReceivedEvent` before implementing.
