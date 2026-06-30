@@ -50,7 +50,7 @@ Starts Langfuse and its Postgres backend. The `LANGFUSE_INIT_*` environment vari
 
 Services:
 - `langfuse` — `langfuse/langfuse:3`, port 3000
-- `postgres` — `postgres:16`, internal-only
+- `postgres` — `postgres:18.4`, internal-only
 
 #### `LangfuseTracerCustomizer.java`
 

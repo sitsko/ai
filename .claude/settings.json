@@ -3,20 +3,43 @@
     "PreToolUse": [
       {
         "matcher": "Read",
-        "hooks": [{ "type": "command", "command": "bash .claude/hooks/block-env-access.sh" }]
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/block-env-access.sh"
+          }
+        ]
       },
       {
         "matcher": "Bash",
-        "hooks": [{ "type": "command", "command": "bash .claude/hooks/block-env-access.sh" }]
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/block-env-access.sh"
+          }
+        ]
       },
       {
         "matcher": "Grep",
-        "hooks": [{ "type": "command", "command": "bash .claude/hooks/block-env-access.sh" }]
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/block-env-access.sh"
+          }
+        ]
       },
       {
         "matcher": "Edit",
-        "hooks": [{ "type": "command", "command": "bash .claude/hooks/block-env-access.sh" }]
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/block-env-access.sh"
+          }
+        ]
       }
     ]
+  },
+  "enabledPlugins": {
+    "code-review@claude-plugins-official": true
   }
 }
