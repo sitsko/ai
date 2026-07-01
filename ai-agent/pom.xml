@@ -100,6 +100,10 @@
       <artifactId>quarkus-observability-devservices-lgtm</artifactId>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>dev.langchain4j</groupId>
+      <artifactId>langchain4j-micrometer-metrics</artifactId>
+    </dependency>
 
     <!-- Test Quarkus dependencies -->
     <dependency>
