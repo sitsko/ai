@@ -1,0 +1,87 @@
+%%{init: {'theme': 'dark'}}%%
+%% sources:
+%%   dev.sitsko.ai.booking.BookingResource
+%%   dev.sitsko.ai.booking.BookingWorkflow
+%%   dev.sitsko.ai.parser.ParserAgent
+%%   dev.sitsko.ai.security.SecurityService
+%%   dev.sitsko.ai.security.SecurityAgent
+%%   dev.sitsko.ai.security.InputGuardRailService
+%%   dev.sitsko.ai.security.OutputGuardrailService
+%%   dev.sitsko.ai.security.DataLeakAgent
+%%   dev.sitsko.ai.schedule.ScheduleAgent
+%%   dev.sitsko.ai.schedule.ScheduleService
+%%   dev.sitsko.ai.observability.MicrometerTokenExporter
+%%   dev.sitsko.ai.observability.TokenMetricCollector
+%%   dev.sitsko.ai.observability.MetricResource
+flowchart TD
+    Client([Client])
+    Rest["BookingResource.proposeVariants\nPOST /api/booking/proposal\n@Timeout 600s"]
+    Workflow["BookingWorkflow.reservationData\n@SequenceAgent"]
+
+    subgraph ParserStage["Stage 1 — ParserAgent 'Architekt'"]
+        InGuard1["SecurityService.isAcceptable\nregex: MSC | hack | password"]
+        InGuard2["SecurityAgent 'Morpheus'\ninjection score"]
+        Parser["ParserAgent.reservationData\nextract BookingStructuredRequest"]
+    end
+
+    subgraph ScheduleStage["Stage 2 — ScheduleAgent 'Fröken Hildur Bock'"]
+        Tool["ScheduleService.findRoute\n@ToolBox — reads voyages CSV"]
+        Schedule["ScheduleAgent.adviceRoutes\nrank matching voyages"]
+        OutGuard["DataLeakAgent 'Neo'\ndata-leak score"]
+    end
+
+    Output["BookingWorkflow.output\n@Output — compose BookingResponse"]
+    Resp200(["HTTP 200\nBookingResponse"])
+
+    Prohibited["ProhibitedContextException"]
+    Injection["PromptInjectionException"]
+    VoyageErr["VoyageDataSourceException"]
+    Leak["DataLeakException"]
+    InGuardEx["InputGuardrailException"]
+    OutGuardEx["OutputGuardrailException"]
+    AgentEx["AgentInvocationException\n(unwraps cause chain)"]
+    Resp403(["HTTP 403 Forbidden"])
+    Resp500(["HTTP 500\n(fallback)"])
+
+    Client --> Rest --> Workflow --> InGuard1
+
+    InGuard1 -- "banned word found" --> Prohibited --> InGuardEx
+    InGuard1 -- pass --> InGuard2
+    InGuard2 -- "score >= 0.7" --> Injection --> InGuardEx
+    InGuard2 -- "score < 0.7, pass" --> Parser
+    Parser -- "outputKey: bookingStructuredRequest" --> Tool
+
+    Tool -- "IOException" --> VoyageErr --> AgentEx
+    Tool -- ok --> Schedule --> OutGuard
+    OutGuard -- "score >= 0.7" --> Leak --> OutGuardEx
+    OutGuard -- "score < 0.7, pass" --> Output
+    Output -- "outputKey: voyageData" --> Resp200
+
+    InGuardEx --> AgentEx
+    OutGuardEx --> AgentEx
+    AgentEx -- "cause: InputGuardrailException" --> Resp403
+    AgentEx -- "cause: OutputGuardrailException" --> Resp403
+    AgentEx -- "unrecognized cause" --> Resp500
+
+    subgraph Metrics["Token metrics side-channel (per LLM call)"]
+        Event["AiServiceResponseReceivedEvent"]
+        Exporter["MicrometerTokenExporter"]
+        Collector["TokenMetricCollector"]
+        MetricsApi["GET/DELETE /api/metrics/tokens\n+ Micrometer gauges"]
+        Event --> Exporter --> Collector --> MetricsApi
+    end
+
+    InGuard2 -. emits .-> Event
+    Parser -. emits .-> Event
+    Schedule -. emits .-> Event
+    OutGuard -. emits .-> Event
+
+    classDef stage fill:#1e2a3a,stroke:#5b8dbf,color:#e6edf3;
+    classDef error fill:#3a1e22,stroke:#d16969,color:#f5c2c7;
+    classDef success fill:#1e3a24,stroke:#5bbf7a,color:#c6f6d5;
+    classDef metrics fill:#2a1e3a,stroke:#9b7ed6,color:#e0d6f5;
+
+    class InGuard1,InGuard2,Parser,Tool,Schedule,OutGuard,Output,Workflow,Rest stage;
+    class Prohibited,Injection,VoyageErr,Leak,InGuardEx,OutGuardEx,AgentEx,Resp403,Resp500 error;
+    class Resp200 success;
+    class Event,Exporter,Collector,MetricsApi metrics;
