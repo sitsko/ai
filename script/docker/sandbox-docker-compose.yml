@@ -1,0 +1,31 @@
+services:
+  ai-sandbox:
+    image: ai-sandbox:latest
+    container_name: ai-sandbox
+    hostname: sandbox
+    stdin_open: true
+    tty: true
+    working_dir: /workspace
+    volumes:
+      - ${PROJECT_DIR}:/workspace
+      # Persist Maven local repo across container rebuilds/recreations
+      - maven-repo:/home/developer/.m2
+      # Persist npm global installs (kilocode, claude-code) and npm cache
+      - npm-global:/home/developer/.npm-global
+      - npm-cache:/home/developer/.npm
+    environment:
+      MAVEN_OPTS: "-Dmaven.repo.local=/home/developer/.m2/repository"
+    networks:
+      - sandbox-net
+    # Uncomment if the sandbox needs to reach a host service (e.g. local LDAP/Kafka)
+    # extra_hosts:
+    #   - "host.docker.internal:host-gateway"
+
+networks:
+  sandbox-net:
+    driver: bridge
+
+volumes:
+  maven-repo:
+  npm-global:
+  npm-cache:

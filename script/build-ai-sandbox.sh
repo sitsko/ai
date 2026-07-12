@@ -1,0 +1,1 @@
+podman build -f docker/sandbox.dockerfile -t ai-sandbox .
