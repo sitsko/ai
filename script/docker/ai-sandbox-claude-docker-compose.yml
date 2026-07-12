@@ -1,0 +1,47 @@
+services:
+  ai-sandbox-claude:
+    build:
+      context: .
+      dockerfile: ai-sandbox-claude.dockerfile
+    image: ai-sandbox-claude:latest
+    container_name: ai-sandbox-claude
+    hostname: sandbox-claude
+    stdin_open: true
+    tty: true
+    working_dir: /workspace
+    volumes:
+      - ${PROJECT_DIR}:/workspace
+      # Persist Maven local repo across container rebuilds/recreations
+      - maven-repo:/home/developer/.m2
+      # Persist npm cache (global CLIs are pinned + baked into the image, not volume-mounted)
+      - npm-cache:/home/developer/.npm
+      # Shared credential/config volumes — mount the same external names from
+      # other compose files/services to reuse the same Claude Code / Kilo Code login
+      - claude-state:/home/developer/.claude
+      - kilocode-state:/home/developer/.kilocode
+      - kilo-config:/home/developer/.config/kilo
+    environment:
+      MAVEN_OPTS: "-Dmaven.repo.local=/home/developer/.m2/repository"
+    networks:
+      - sandbox-claude-net
+    # Uncomment if the sandbox needs to reach a host service (e.g. local LDAP/Kafka)
+    # extra_hosts:
+    #   - "host.docker.internal:host-gateway"
+
+networks:
+  sandbox-claude-net:
+    driver: bridge
+
+volumes:
+  maven-repo:
+  npm-cache:
+  # Fixed names (not project-prefixed) so other compose files can reference
+  # them as `external: true` and share the same logged-in state.
+  # Do not run two containers against these concurrently — last-write-wins
+  # on session/history files.
+  claude-state:
+    name: ai-sandbox-claude-state
+  kilocode-state:
+    name: ai-sandbox-kilocode-state
+  kilo-config:
+    name: ai-sandbox-kilo-config
