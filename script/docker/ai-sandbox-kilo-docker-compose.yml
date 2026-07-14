@@ -1,11 +1,11 @@
 services:
-  ai-sandbox:
+  ai-sandbox-kilo:
     build:
       context: .
       dockerfile: ai-sandbox-kilo.dockerfile
-    image: ai-sandbox:latest
-    container_name: ai-sandbox
-    hostname: sandbox
+    image: ai-sandbox-kilo:latest
+    container_name: ai-sandbox-kilo
+    hostname: sandbox-kilo
     stdin_open: true
     tty: true
     working_dir: /workspace
