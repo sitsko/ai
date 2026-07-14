@@ -17,7 +17,7 @@ ARG USER_GID=1000
 # Minimal fetch tools only (no recommends); cleaned in the same layer
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        curl wget ca-certificates bash \
+        curl wget ca-certificates bash xz-utils \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -31,6 +31,7 @@ RUN ARCH=$(uname -m | sed 's/x86_64/x64/;s/aarch64/arm64/') \
 # Maven via official binary tarball (avoids apt maven + its dependencies)
 RUN wget -q "https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz" -O /tmp/mvn.tgz \
     && tar -xzf /tmp/mvn.tgz -C /opt \
+    && mv /opt/apache-maven-${MAVEN_VERSION} /opt/maven \
     && rm /tmp/mvn.tgz
 
 RUN groupadd --gid ${USER_GID} ${USERNAME} \
@@ -44,7 +45,8 @@ ENV PATH="/home/${USERNAME}/.npm-global/bin:${PATH}"
 
 # Pin agent versions for reproducible, stable sandbox builds
 RUN npm install -g --no-audit --no-fund \
-        @kilocode/cli@0.1.0 @anthropic-ai/claude-code@1.0.0 \
+    @kilocode/cli@7.4.7 \
+    @anthropic-ai/claude-code@2.1.198 \
     && npm cache clean --force
 
 # ---- Runtime: lean image = JDK + copied toolchain + debug tools -----------
