@@ -15,11 +15,9 @@ services:
       - maven-repo:/home/developer/.m2
       # Persist npm cache (global CLIs are pinned + baked into the image, not volume-mounted)
       - npm-cache:/home/developer/.npm
-      # Shared credential/config volumes — mount the same external names from
-      # other compose files/services to reuse the same Claude Code / Kilo Code login
+      # Shared credential volume — mount the same external name from other
+      # compose files/services to reuse the same Claude Code login
       - claude-state:/home/developer/.claude
-      - kilocode-state:/home/developer/.kilocode
-      - kilo-config:/home/developer/.config/kilo
     environment:
       MAVEN_OPTS: "-Dmaven.repo.local=/home/developer/.m2/repository"
     networks:
@@ -41,7 +39,3 @@ volumes:
   # on session/history files.
   claude-state:
     name: ai-sandbox-claude-state
-  kilocode-state:
-    name: ai-sandbox-kilocode-state
-  kilo-config:
-    name: ai-sandbox-kilo-config
