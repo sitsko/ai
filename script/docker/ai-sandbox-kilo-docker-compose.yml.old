@@ -18,29 +18,25 @@ services:
       - ${PROJECT_DIR}:/workspace
       # Persist Maven local repo across container rebuilds/recreations
       - maven-repo:/home/developer/.m2
-      # Persist npm cache (global CLI is pinned + baked into the image, not volume-mounted)
-      - npm-cache:/home/developer/.npm
-      # Shared credential volume — mount the same external name from other
-      # compose files/services to reuse the same Kilo Code login
-      - kilo-state:/home/developer/.kilocode
+      # Persist npm global installs (kilocode, claude-code) and npm cache
+      - npm-global:/home/developer/.npm-global
+      # Persist agent state/history so multiple containers share identity
+      - kilo-data:/home/developer/.kilocode
+      - claude-data:/home/developer/.claude
     environment:
       MAVEN_OPTS: "-Dmaven.repo.local=/home/developer/.m2/repository"
     networks:
-      - sandbox-kilo-net
+      - sandbox-net
     # Uncomment if the sandbox needs to reach a host service (e.g. local LDAP/Kafka)
     # extra_hosts:
     #   - "host.docker.internal:host-gateway"
 
 networks:
-  sandbox-kilo-net:
+  sandbox-net:
     driver: bridge
 
 volumes:
   maven-repo:
-  npm-cache:
-  # Fixed name (not project-prefixed) so other compose files can reference
-  # it as `external: true` and share the same logged-in state.
-  # Do not run two containers against this concurrently — last-write-wins
-  # on session/history files.
-  kilo-state:
-    name: ai-sandbox-kilo-state
+  npm-global:
+  kilo-data:
+  claude-data:
